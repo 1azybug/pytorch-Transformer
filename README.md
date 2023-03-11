@@ -14,7 +14,7 @@ log.txt记录了train.py的输出
 
 ![loss](目前进度.PNG)
 
-valid loss更低应该是dropout在起作用
+train loss更高应该是dropout在起作用
 
 ## 训练中发现的一些失误
 1. 忘了pytorch的BLEU分数的值域是[0,1]，一直以为满分是100（论文的满分是100），以为模型还没训练好，其实早就可以停止训练了（虽然现在loss还在下降，但是BLEU分数一直在波动）。
