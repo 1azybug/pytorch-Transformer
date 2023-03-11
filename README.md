@@ -1,6 +1,9 @@
 # pytorch-Transformer
 用pytorch复现"Attention is all you need"中的Transformer(base)
 
+## 数据集
+WMT 2014 English-German dataset
+
 ## 文件
 train.py是transformer(stable).ipynb的脚本
 
