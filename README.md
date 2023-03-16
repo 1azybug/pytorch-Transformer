@@ -5,7 +5,7 @@
 WMT 2014 English-German dataset
 
 ## 文件
-train.py是transformer(stable).ipynb的脚本
+train.py是transformer(draft).ipynb的脚本
 
 log.txt记录了train.py的输出
 
