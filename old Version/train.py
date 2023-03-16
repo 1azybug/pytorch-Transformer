@@ -22,17 +22,6 @@
 # * limited the max_len of output <= input length + 50
 # * in evaluate function,delete the tokens following \<eos>
 
-# ### 2023/3/14 update:
-# * execute backward as soon as possible
-# * checkpoint add valid BLEU score list(teacher forcing)
-# * def autoregressive_evaluate method for calculating the bleu in the test environment
-# * bleu*=100
-# * add batch_tokens to hype-parameter
-# * add gradient accumulation
-# * checkpoint add valid BLEU score list(autoregressive)
-# * warning fix:converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor.
-# * save best_bleu parameter
-
 # # Future
 # ### Test module
 # * beam search
@@ -91,10 +80,7 @@ epsilon = 0.1
 gpu_num = 1
 warmup_steps = 4000*8//gpu_num
 
-truncate_len = 650
-batch_tokens = 1400 #  the maximum of the total num of src tokens + tgt tokens
-
-used_cuda = "cuda:1"
+used_cuda = "cuda:3"
 device = torch.device(used_cuda if torch.cuda.is_available() else "cpu")
 
 
@@ -136,7 +122,7 @@ dataset = load_from_disk('dataset')
 
 de_en_pairs = []
 for i in range(len(dataset)):        
-    de_en_pairs.append((dataset[i]['translation']['de'][:truncate_len],dataset[i]['translation']['en'][:truncate_len]))
+    de_en_pairs.append((dataset[i]['translation']['de'][:256],dataset[i]['translation']['en'][:256]))
 
 
 # In[6]:
@@ -200,7 +186,7 @@ import torch
 import numpy as np
 from tokenizers import Tokenizer
 tokenizer = Tokenizer.from_file("tokenizer.json")
-def batch_generator(dataset,gpu_num=1,max_len=batch_tokens):
+def batch_generator(dataset,gpu_num=1,max_len=1050):
     en_cnt = 0
     de_cnt = 0
     en_batch = []
@@ -427,8 +413,6 @@ def save_checkpoint(path,
                     step_list,
                     train_loss_list,
                     val_loss_list,
-                    val_bleu_list,
-                    val_auto_bleu_list,
                     safe_replacement: bool = True):
 
     if isinstance(modules, torch.nn.Module):
@@ -449,9 +433,7 @@ def save_checkpoint(path,
         'schedulers': [s.state_dict() for s in schedulers],
         "step_list":step_list,
         "train_loss_list":train_loss_list,
-        "val_loss_list":val_loss_list,
-        "val_bleu_list":val_bleu_list,
-        "val_auto_bleu_list":val_auto_bleu_list
+        "val_loss_list":val_loss_list
     }
 
     # Safe replacement of old checkpoint
@@ -493,8 +475,6 @@ def load_checkpoint(path,
                     step_list,
                     train_loss_list,
                     val_loss_list,
-                    val_bleu_list,
-                    val_auto_bleu_list,
                     verbose: bool = True):
 
     if isinstance(modules, torch.nn.Module):
@@ -534,12 +514,6 @@ def load_checkpoint(path,
         val_loss_list.clear()
         val_loss_list += data['val_loss_list']
         
-        val_bleu_list.clear()
-        val_bleu_list += data['val_bleu_list']
-        
-        val_auto_bleu_list.clear()
-        val_auto_bleu_list += data['val_auto_bleu_list']
-        
         # Next epoch
         return data['epoch'] + 1
     else:
@@ -568,7 +542,7 @@ def generate_square_subsequent_mask(sz: int):
 # mask
 
 
-# In[34]:
+# In[29]:
 
 
 import time
@@ -583,13 +557,10 @@ def train(model,epoch):
     scheduler = LambdaLR(optimizer, lr_lambda=lambda1)
 
     loss_list = []
-    val_loss_list = []
-    val_bleu_list = []
-    val_auto_bleu_list = []
+    valid_list = []
     step_list = []    
 
     steps = 0
-    best_bleu = 0
     
     load_checkpoint(path=save_path,
                     default_epoch=epoch,
@@ -598,23 +569,17 @@ def train(model,epoch):
                     schedulers=scheduler,
                     step_list=step_list,
                     train_loss_list=loss_list,
-                    val_loss_list=val_loss_list,
-                    val_bleu_list=val_bleu_list,
-                    val_auto_bleu_list=val_auto_bleu_list)
+                    val_loss_list=valid_list)
                    
     if step_list:
         steps = step_list[-1]
-        
-    if val_auto_bleu_list:
-        best_bleu = max(val_auto_bleu_list)
     
     model.train()
     total_loss = 0.0
-    log_interval = 50000
+    log_interval = 2000
     start_time = time.time()
 
-    accumulation_steps = (25000*2)//batch_tokens
-    optimizer.zero_grad()
+
     for en_ids,de_ids,target_en_ids,target_de_ids,\
         en_padding_mask,de_padding_mask in train_loader:
 
@@ -643,30 +608,24 @@ def train(model,epoch):
         # output:[T,B,ntokens]
 
         loss = 0.5*criterion(output.view(-1,n_tokens),target_en_ids.view(-1))
-        total_loss += loss.item()
-        loss = loss/accumulation_steps
-        loss.backward()
+        
         
         output = model(en_ids,de_ids,\
                        generate_square_subsequent_mask(de_ids.shape[0]).to(device),\
                        en_padding_mask,de_padding_mask)
                        
 
-        loss = 0.5*criterion(output.view(-1,n_tokens),target_de_ids.view(-1))
-        total_loss += loss.item()
-        loss = loss/accumulation_steps        
+        loss += 0.5*criterion(output.view(-1,n_tokens),target_de_ids.view(-1))       
+        
+        optimizer.zero_grad()
         loss.backward()
 #         torch.nn.utils.clip_grad_norm_(model.parameters(), 0.5)
+        optimizer.step()
+        scheduler.step()
         
         steps += 1
-        if steps%accumulation_steps == 0:
-            optimizer.step()
-            scheduler.step()
-            optimizer.zero_grad()
-        
-        
-
-        if steps%log_interval == 0:
+        total_loss += loss.item()
+        if steps%log_interval ==0:
             lr = scheduler.get_last_lr()[0]
             s_per_step = (time.time() - start_time) / log_interval
             cur_loss = total_loss / log_interval
@@ -679,20 +638,7 @@ def train(model,epoch):
             
             loss_list.append(cur_loss)
             step_list.append(steps)
-            
-            val_loss_list_e, val_bleu_list_e = evaluate(model,valid_loader)
-            val_loss_list.append(val_loss_list_e)
-            val_bleu_list.append(val_bleu_list_e)
-            
-            val_auto_bleu_list_e = autoregressive_evaluate(model,valid_de_en_pairs)
-            val_auto_bleu_list.append(val_auto_bleu_list_e)
-            
-            if val_auto_bleu_list_e>best_bleu:
-                best_bleu = val_auto_bleu_list_e
-                print("best autoregressive bleu score:",best_bleu)
-                torch.save(model.state_dict(),"best_bleu.pt")
-                print("save to best_bleu.pt")
-            
+            valid_list.append(evaluate(model,valid_loader))
             
             save_checkpoint(path=save_path,
                     epoch=epoch,
@@ -701,10 +647,7 @@ def train(model,epoch):
                     schedulers=scheduler,
                     step_list=step_list,
                     train_loss_list=loss_list,
-                    val_loss_list=val_loss_list,
-                    val_bleu_list=val_bleu_list,
-                    val_auto_bleu_list=val_auto_bleu_list)
-                        
+                    val_loss_list=valid_list)
                     
 
     save_checkpoint(path=save_path,
@@ -714,14 +657,12 @@ def train(model,epoch):
             schedulers=scheduler,
             step_list=step_list,
             train_loss_list=loss_list,
-            val_loss_list=val_loss_list,
-            val_bleu_list=val_bleu_list,
-            val_auto_bleu_list=val_auto_bleu_list)       
+            val_loss_list=valid_list)       
 
 
 # # Evaluate (only test de->en)
 
-# In[35]:
+# In[30]:
 
 
 import numpy as np
@@ -816,96 +757,162 @@ def evaluate(model, valid_loader):
     print(f"valid_loss:{avg_loss:.5f}")
     
 #     print(len(pred_token_list),len(en_token_list))
-    bleu = bleu_score(pred_token_list,en_token_list)*100
-    print(f"teacher forcing bleu:{bleu}")
+    bleu = bleu_score(pred_token_list,en_token_list)
+    print(f"bleu:{bleu}")
     
 #     # pred_token_list [allB,T(str)] # en_token_list [allB,1,T(str)]
 #     print(pred_token_list[0][:20],en_token_list[0])
         
     
     model.train()
-    return avg_loss, bleu
+    return avg_loss
 
-
-# # autoregressive translate( de -> en )
-
-# In[36]:
-
-
-def translate(model, src, references):
-    # src:str
-    output = tokenizer.encode(src)
-    
-    src_ids = [output.ids] #[1,S] 
-    src_padding_mask = np.array([1-np.array(output.attention_mask)]) #[1,S]
-    tgt_ids = [[bos_id]] #[1,1] i.e [1,T]
-    
-    with torch.no_grad():
-        while tgt_ids[0][-1] != eos_id:
-            if len(tgt_ids[0]) > len(output.ids) +50:
-                break
-            pred = model(torch.LongTensor(src_ids).t().contiguous().to(device),
-                                    torch.LongTensor(tgt_ids).t().contiguous().to(device),
-                                    generate_square_subsequent_mask(len(tgt_ids[0])).to(device),
-                                    torch.LongTensor(src_padding_mask).to(device),None)
-            # [T,1,ntokens]
-
-            next_token = pred.argmax(dim=-1)[-1]
-            #                      [T,1]
-
-            # tgt_ids :<bos>       A         :[T]
-            # pred    :  A    <next token>   :[T]
-
-            tgt_ids[0].append(next_token.item())
-            # tgt_ids:[1,T]->[1,T+1]
-            
-    # tgt_ids:[1,T], tgt_ids[0]:[T]
-    tgt = tokenizer.decode(tgt_ids[0])
-#     print("\nsrc:",src)
-#     print("\npred:",tgt)
-    
-    output = tokenizer.encode(tgt)
-    candidate = [output.tokens] #  candidate [allB(1),T(str)] # references [allB(1),1,T(str)]
-    bleu = bleu_score(candidate,references)*100
-#     print(f"\nbleu:{bleu}")
-    return bleu
-
-
-# # autoregressive evaluate
-
-# In[40]:
-
-
-import numpy as np
-from torchtext.data.metrics import bleu_score
-
-def autoregressive_evaluate(model, pairs):
-    print('='*30)
-    model.eval()  # turn on evaluation mode
-    
-
-    total_bleu = 0.0
-#     print("num of valid sample:",len(pairs))
-    for i in range(len(pairs)):
-    #     print("="*40)
-#         print(i)
-        output = tokenizer.encode(pairs[i][1])
-        total_bleu += translate(model,pairs[i][0],references=[[output.tokens]])  # references [allB(1),1,T(str)]  
-    
-    avg_bleu = total_bleu/len(pairs)
-    print("autoregressive bleu:",avg_bleu)
-    
-    model.train()
-    return avg_bleu
-
-
-# # Execute Training here
 
 # In[ ]:
 
 
+
+
+
+# In[40]:
+
+
 for i in range(1,10):
     train(transformer_model,epoch=i)
+
+
+# # Load model
+
+# In[32]:
+
+
+# transformer_model.load_state_dict(torch.load("latest.pt"))
+
+
+# In[ ]:
+
+
+
+
+
+# # Vision
+
+# In[33]:
+
+
+# !pip install matplotlib
+
+
+# In[39]:
+
+
+import matplotlib.pyplot as plt
+
+
+def paint():
+    
+    if os.path.exists(save_path):
+        
+        load_info = torch.load(save_path)
+        loss_list = load_info["train_loss_list"]
+        valid_list = load_info["val_loss_list"]
+        step_list = load_info["step_list"]
+        steps = step_list[-1]
+
+    else :
+        return "Not exist checkpoint"
+    
+    print("total steps:",steps)
+    
+    plt.title("Loss")
+    plt.xlabel("steps")
+    # plt.ylabel("loss")
+    plt.plot(step_list[20:],loss_list[20:])
+    plt.plot(step_list[20:],valid_list[20:])
+    plt.legend(["train loss","valid loss"])
+
+
+    plt.tight_layout()
+
+paint()
+
+
+# # Test
+
+# In[35]:
+
+
+from datasets import load_dataset
+test_dataset = load_dataset("wmt14", 'de-en', split='test')
+
+test_de_en_pairs = []
+for i in range(len(test_dataset)):
+    test_de_en_pairs.append((test_dataset[i]['translation']['de'],test_dataset[i]['translation']['en']))
+    
+
+
+# In[36]:
+
+
+criterion = nn.CrossEntropyLoss(ignore_index=pad_id) 
+transformer_model = TransformerModel()
+transformer_model.to(device)
+if os.path.exists(save_path):
+
+    data = torch.load(save_path)
+    transformer_model.load_state_dict(data['modules'][0])
+
+evaluate(transformer_model,batch_generator(dataset=test_de_en_pairs,gpu_num=gpu_num))
+
+
+# In[37]:
+
+
+def translate(src,references):
+    # src:str
+    output = tokenizer.encode(src)
+    
+    src_ids = [output.ids] #[1,S] 
+    src_padding_mask = [1-np.array(output.attention_mask)] #[1,S]
+    tgt_ids = [[bos_id]] #[1,1] i.e [1,T]
+    
+    while tgt_ids[0][-1] != eos_id:
+        if len(tgt_ids[0]) > len(output.ids) +50:
+            break
+        pred= transformer_model(torch.LongTensor(src_ids).t().contiguous().to(device),
+                                torch.LongTensor(tgt_ids).t().contiguous().to(device),
+                                generate_square_subsequent_mask(len(tgt_ids[0])).to(device),
+                                torch.LongTensor(src_padding_mask).to(device),None)
+        # [T,1,E]
+        
+        next_token = pred.argmax(dim=-1)[-1]
+        #                      [T,1]
+        
+        # tgt_ids :<bos>       A         :[T]
+        # pred    :  A    <next token>   :[T]
+        
+        tgt_ids[0].append(next_token.item())
+    
+    # src_ids:[S] tgt_ids=[T]
+    tgt = tokenizer.decode(tgt_ids[0])
+    print("\nsrc:",src)
+    print("\npred:",tgt)
+    #  candidate [allB,T(str)] # references [allB,1,T(str)]
+    
+    output = tokenizer.encode(tgt)
+    candidate = [output.tokens]
+    bleu = bleu_score(candidate,references)
+    print(f"\nbleu:{bleu}")
+
+
+# In[38]:
+
+
+for i in range(2):
+    print("="*40)
+    output = tokenizer.encode(test_de_en_pairs[i][1])
+    translate(test_de_en_pairs[i][0],references=[[output.tokens]])
+    print("ans:",test_de_en_pairs[i][1])
 
 
 # In[ ]:
