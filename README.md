@@ -9,6 +9,8 @@ train.py是transformer(draft).ipynb的脚本
 
 log.txt记录了train.py的输出
 
+Test.ipynb用于对实验结果的绘图和预测
+
 # 2023年3月16日更新
 
 除了完成TODO的七项内容外，还减小了输出log的频率，主要是抵消自回归预测太慢的影响。
