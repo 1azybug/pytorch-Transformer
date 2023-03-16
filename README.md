@@ -9,10 +9,19 @@ train.py是transformer(stable).ipynb的脚本
 
 log.txt记录了train.py的输出
 
-## 进度
-目前仍在训练 
+# 2023年3月16日更新
 
-![loss](目前进度.PNG)
+除了完成TODO的七项内容外，还减小了输出log的频率，主要是抵消自回归预测太慢的影响。
+
+##  正在训练第二轮
+![training](目前进度.PNG)
+可以看出Teacher Forcing和自回归预测的gap还是很大的，这里更应该关注自回归的BLEU分数。
+增加梯度累积机制，并在更新参数后让scheduler进行step，使学习率下降得没这么快了，且使valid loss下降更快了。（大概比之前快了14倍左右）
+
+# 2023年3月11日上传
+## 10轮训练结束
+ 
+![loss](old Version\10轮之后.png)
 
 train loss更高应该是dropout在起作用
 
@@ -24,11 +33,11 @@ train loss更高应该是dropout在起作用
 5. 验证集不是用自回归去预测（预测的Token能看到前面的正确Token，但看不到自己预测的Token），准确率上升,连贯性下降。（暂时不知道对BLEU的影响）
 
 ## TODO(训练完第十个epoch后进行):
-1. 把测试部分独立出来,放在另一个文件
-2. 将BLEU乘以100
-3. 根据valid的BLEU保存参数
-4. 提前loss的backward
-5. 增加梯度累积,并在更新参数后才让scheduler进行step。(暂时先改为以1e-3的学习率训练接下来的epoch)
-6. 将验证集的评估改回自回归预测
-7. 记录训练过程中BLEU的分数，并绘图
+1. 把测试部分独立出来,放在另一个文件（完成）
+2. 将BLEU乘以100（完成）
+3. 根据valid的BLEU保存参数（完成）
+4. 提前loss的backward（完成）
+5. 增加梯度累积,并在更新参数后才让scheduler进行step。（完成）
+6. 将验证集的评估改回自回归预测（完成）
+7. 记录训练过程中BLEU的分数，并绘图（完成）
 8. 增加英译德的评估和预测
