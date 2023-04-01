@@ -33,6 +33,47 @@
 # * warning fix:converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor.
 # * save best_bleu parameter
 
+# # 2023/3/25 update:
+# * change de<->en to en->de(this is identical to paper) and increase the truncate_len and batch_tokens
+# * for saving flops, initial the parameter from best_blue_score.pt(which train 10 epoch on de<->en i.e. parameters in Vesion3)
+# * record steps//accumulation_step instead of steps(for being identical to paper's steps) 
+# * evaluate change de->en to en->de 
+# * make the calculation of eval_loss be identical to traning_loss
+
+# # 2023/3/27 update:
+# * fixed the bug of recording step_list(bug:record the steps//accumulation and assgin steps with it)
+# * change truncate_len = 768 batch_tokens = 1536
+# * change accumulation_steps=1024  lr=1e-3
+# * change scheduler:CosineAnnealingWarmRestarts with T_0=1024,T_mult=2,eta_min=1e-4
+# * train from scratch 
+
+# # 2023/3/28 update:
+# ### new hype-parameter setting:
+# * accumulation_steps = 256;
+# * set a warmup scheduler of warmup steps =256
+# * initial learning_rate = 3e-4;
+# * warmup_scheduler = LinearLR(optimizer,start_factor=0.1,end_factor=1,total_iters=256)
+# * CosineAnnealingWarmRestarts(optimizer, T_0=256,T_mult=2,eta_min=7e-5)
+
+# # 2023/3/29:
+# * found bug: (steps//accumulation_steps)*accumulation_steps != steps i.e. can't restore steps from step_list
+# * fixed it
+# * change epochs to 3 for find the hype-parameters
+# * change warmup_steps from 256 to 256*32 = 8192
+# * fixed bug in train():optimizer = torch.optim.Adam(model.parameters(),lr=learning_rate,betas=(0.9,0.98),eps=1e-9) #
+# * previos:optimizer = torch.optim.Adam(transformer_model.parameters(),lr=learning_rate,betas=(0.9,0.98),eps=1e-9) #
+# * fixed bug about warmup_scheduler: 
+# * move it to next line of cosine_scheduler;otherwise lr will raise from initial lr instead of 0.1*initial lr
+
+# # 2023/3/31
+# * use the nearest setting with paper
+# * i.e. accumulation_steps = 50000//batch_tokens=25 and scheduler in paper
+# * in the sake of improving the gpu use rate, decrease truncate_len = 256 and increase batch_tokens = 2048 (more neat)
+
+# # 2023/4/1
+# * overfitting
+# * make truncate_len = 768 batch_tokens = 1536 accumulation_steps = 50000//batch_tokens
+
 # # Future
 # ### Test module
 # * beam search
@@ -66,7 +107,7 @@ torch.backends.cudnn.deterministic = True
 
 # # Download dataset and preprocess
 
-# In[2]:
+# In[1]:
 
 
 import torch
@@ -89,12 +130,25 @@ p_drop = 0.1
 epsilon = 0.1
 
 gpu_num = 1
-warmup_steps = 4000*8//gpu_num
+# warmup_steps = 4000*8//gpu_num
+# start_factor = 0.1
+# end_factor = 1.0
+warmup_steps = 4000
 
-truncate_len = 650
-batch_tokens = 1400 #  the maximum of the total num of src tokens + tgt tokens
+truncate_len = 768
+batch_tokens = 1536 #  the maximum of the total num of src tokens + tgt tokens
 
-used_cuda = "cuda:1"
+accumulation_steps = (25000*2)//batch_tokens
+# learning_rate = 3e-4
+# T0 = 256
+# Tmul = 2
+# min_lr = 7e-5
+
+
+
+
+
+used_cuda = "cuda:3"
 device = torch.device(used_cuda if torch.cuda.is_available() else "cpu")
 
 
@@ -139,37 +193,37 @@ for i in range(len(dataset)):
     de_en_pairs.append((dataset[i]['translation']['de'][:truncate_len],dataset[i]['translation']['en'][:truncate_len]))
 
 
-# In[6]:
+# In[ ]:
 
 
 de_en_pairs = sorted(de_en_pairs,key=lambda x:+len(x[0])+len(x[1]))
 
 
-# In[7]:
+# In[ ]:
 
 
 # len(de_en_pairs[-1][0])+len(de_en_pairs[-1][1])
 
 
-# In[8]:
+# In[ ]:
 
 
 # len(de_en_pairs[-500][0])+len(de_en_pairs[-500][1])
 
 
-# In[9]:
+# In[ ]:
 
 
 # de_en_pairs = de_en_pairs[:-500]
 
 
-# In[10]:
+# In[ ]:
 
 
 len(de_en_pairs[-1][0])+len(de_en_pairs[-1][1])
 
 
-# In[11]:
+# In[ ]:
 
 
 print(len(de_en_pairs[0][0])+len(de_en_pairs[0][1]))
@@ -180,7 +234,7 @@ print(len(de_en_pairs[0][0])+len(de_en_pairs[0][1]))
 
 # # Valid Dataloader  input:[S,B],mask:[B,S]
 
-# In[12]:
+# In[ ]:
 
 
 from datasets import load_dataset
@@ -193,7 +247,7 @@ for i in range(len(valid_dataset)):
 
 # # Batchloader input:[S,B],mask:[B,S]
 
-# In[13]:
+# In[ ]:
 
 
 import torch
@@ -263,7 +317,7 @@ def batch_generator(dataset,gpu_num=1,max_len=batch_tokens):
 
 # # Dataset
 
-# In[14]:
+# In[ ]:
 
 
 import torch
@@ -281,14 +335,14 @@ class FoodDataset(torch.utils.data.Dataset):
 
 # # original data
 
-# In[15]:
+# In[ ]:
 
 
 train_list = [batch for batch in batch_generator(dataset=de_en_pairs,gpu_num=gpu_num)]
 valid_list = [batch for batch in batch_generator(dataset=valid_de_en_pairs,gpu_num=gpu_num)]
 
 
-# In[16]:
+# In[ ]:
 
 
 train_dataset = FoodDataset(train_list)
@@ -300,7 +354,7 @@ valid_loader=torch.utils.data.DataLoader(valid_dataset,batch_size=1,shuffle=Fals
 
 # # pytorch Transfomer(by Layer)
 
-# In[17]:
+# In[ ]:
 
 
 from torch import nn
@@ -312,7 +366,7 @@ from torch.nn import TransformerEncoderLayer, TransformerDecoderLayer
 from torch.nn import TransformerEncoder, TransformerDecoder
 
 
-# In[18]:
+# In[ ]:
 
 
 class PositionalEncoding(nn.Module):
@@ -339,7 +393,7 @@ class PositionalEncoding(nn.Module):
 
 # ### activation, encoder key padding_mask and decoder key padding mask differnt with paper
 
-# In[19]:
+# In[ ]:
 
 
 class TransformerModel(nn.Module):
@@ -383,7 +437,7 @@ class TransformerModel(nn.Module):
 # # Train
 # * de->en
 
-# In[20]:
+# In[ ]:
 
 
 criterion = nn.CrossEntropyLoss(ignore_index=pad_id,label_smoothing=epsilon) # Label Smooth
@@ -392,7 +446,7 @@ transformer_model.to(device)
 print(transformer_model)
 
 
-# In[21]:
+# In[ ]:
 
 
 # for i in range(1000):
@@ -401,22 +455,31 @@ print(transformer_model)
 #     print(scheduler.get_last_lr())
 
 
-# In[22]:
+# In[ ]:
 
 
 # ! pip install fvcore -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 
-# In[23]:
+# In[ ]:
 
 
 from fvcore.nn import FlopCountAnalysis, parameter_count_table
 print(parameter_count_table(transformer_model))
 
 
+# # load init.pt(i.e. 10epoch train on Version3 de<->en)
+
+# In[ ]:
+
+
+# origin_cuda = "cuda:1"
+# transformer_model.load_state_dict(torch.load('init.pt', map_location={origin_cuda: used_cuda}))
+
+
 # # Checkpoint setting
 
-# In[24]:
+# In[ ]:
 
 
 def save_checkpoint(path,
@@ -481,7 +544,7 @@ def save_checkpoint(path,
     print("save to ",path)
 
 
-# In[25]:
+# In[ ]:
 
 
 from datetime import datetime
@@ -548,40 +611,47 @@ def load_checkpoint(path,
 
 # # Train (train de<=>en i.e intertranslation)
 
-# In[26]:
+# In[ ]:
 
 
 def generate_square_subsequent_mask(sz: int):
     return torch.triu(torch.ones(sz, sz) * float('-inf'), diagonal=1)
 
 
-# In[27]:
+# In[ ]:
 
 
 # mask = generate_square_subsequent_mask(38481) #38481 is the max_len  occur too much memory 
 # mask = mask.to(device)
 
 
-# In[28]:
+# In[ ]:
 
 
 # mask
 
 
-# In[34]:
+# In[ ]:
 
 
 import time
 import os
 from torch.optim.lr_scheduler import LambdaLR
+from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts,LinearLR
 
 def train(model,epoch):
     
     
     lambda1 = lambda step_num: min((step_num+1)**(-0.5),(step_num+1)*(warmup_steps**(-1.5)))
-    optimizer = torch.optim.Adam(transformer_model.parameters(),lr=d_model**(-0.5),betas=(0.9,0.98),eps=1e-9)
+    optimizer = torch.optim.Adam(model.parameters(),lr=d_model**(-0.5),betas=(0.9,0.98),eps=1e-9)
     scheduler = LambdaLR(optimizer, lr_lambda=lambda1)
-
+#     optimizer = torch.optim.Adam(model.parameters(),lr=learning_rate,betas=(0.9,0.98),eps=1e-9)
+    
+#     scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=T0,T_mult=Tmul,eta_min=min_lr)
+    
+    # warmup_scheduler must be the last scheduler being define, otherwise lr won't initial by start_factor*initial_lr
+#     warmup_scheduler = LinearLR(optimizer,start_factor=start_factor,end_factor=end_factor,total_iters=warmup_steps)
+    
     loss_list = []
     val_loss_list = []
     val_bleu_list = []
@@ -591,6 +661,7 @@ def train(model,epoch):
     steps = 0
     best_bleu = 0
     
+#     print("checkpoint1:steps:",steps)
     load_checkpoint(path=save_path,
                     default_epoch=epoch,
                     modules=model,
@@ -601,10 +672,10 @@ def train(model,epoch):
                     val_loss_list=val_loss_list,
                     val_bleu_list=val_bleu_list,
                     val_auto_bleu_list=val_auto_bleu_list)
-                   
+#     print("checkpoint_load:steps_list:",step_list)
     if step_list:
-        steps = step_list[-1]
-        
+        steps = step_list[-1] 
+#     print("checkpoint2:steps:",steps)
     if val_auto_bleu_list:
         best_bleu = max(val_auto_bleu_list)
     
@@ -613,7 +684,7 @@ def train(model,epoch):
     log_interval = 50000
     start_time = time.time()
 
-    accumulation_steps = (25000*2)//batch_tokens
+    
     optimizer.zero_grad()
     for en_ids,de_ids,target_en_ids,target_de_ids,\
         en_padding_mask,de_padding_mask in train_loader:
@@ -634,25 +705,26 @@ def train(model,epoch):
 #         output = model(target_de_ids,en_ids,mask[:en_ids.shape[0]][:en_ids.shape[0]])
 
 
-        # de -> en
-        #de_ids:$<bos>de<eos> en_ids:<bos>$en<eos>
-        output = model(de_ids,en_ids,\
-                       generate_square_subsequent_mask(en_ids.shape[0]).to(device),\
-                       de_padding_mask,en_padding_mask)
+#         # de -> en
+#         #de_ids:$<bos>de<eos> en_ids:<bos>$en<eos>
+#         output = model(de_ids,en_ids,\
+#                        generate_square_subsequent_mask(en_ids.shape[0]).to(device),\
+#                        de_padding_mask,en_padding_mask)
                        
-        # output:[T,B,ntokens]
+#         # output:[T,B,ntokens]
 
-        loss = 0.5*criterion(output.view(-1,n_tokens),target_en_ids.view(-1))
-        total_loss += loss.item()
-        loss = loss/accumulation_steps
-        loss.backward()
+#         loss = 0.5*criterion(output.view(-1,n_tokens),target_en_ids.view(-1))
+#         total_loss += loss.item()
+#         loss = loss/accumulation_steps
+#         loss.backward()
         
+        #en -> de
         output = model(en_ids,de_ids,\
                        generate_square_subsequent_mask(de_ids.shape[0]).to(device),\
                        en_padding_mask,de_padding_mask)
                        
 
-        loss = 0.5*criterion(output.view(-1,n_tokens),target_de_ids.view(-1))
+        loss = criterion(output.view(-1,n_tokens),target_de_ids.view(-1))
         total_loss += loss.item()
         loss = loss/accumulation_steps        
         loss.backward()
@@ -661,17 +733,22 @@ def train(model,epoch):
         steps += 1
         if steps%accumulation_steps == 0:
             optimizer.step()
+#             if steps//accumulation_steps <= warmup_steps:
+#                 warmup_scheduler.step()
+#             else:
+#                 scheduler.step()
             scheduler.step()
             optimizer.zero_grad()
         
         
 
-        if steps%log_interval == 0:
-            lr = scheduler.get_last_lr()[0]
+        if steps%log_interval == 0:       
+            
+            lr = optimizer.param_groups[0]['lr']
             s_per_step = (time.time() - start_time) / log_interval
             cur_loss = total_loss / log_interval
             ppl = math.exp(cur_loss)
-            print(f'| steps {steps:5d}|'
+            print(f'| steps {steps//accumulation_steps:5d}|'
                   f'lr {lr} | s/step {s_per_step:5.2f} | '
                   f'loss {cur_loss:5.2f} | ppl {ppl:8.2f}')
             total_loss = 0
@@ -679,6 +756,8 @@ def train(model,epoch):
             
             loss_list.append(cur_loss)
             step_list.append(steps)
+#             print("checkpoint3:steps:",steps)
+#             print("checkpoint4:steps_list:",step_list)
             
             val_loss_list_e, val_bleu_list_e = evaluate(model,valid_loader)
             val_loss_list.append(val_loss_list_e)
@@ -719,21 +798,21 @@ def train(model,epoch):
             val_auto_bleu_list=val_auto_bleu_list)       
 
 
-# # Evaluate (only test de->en)
+# # Evaluate (~~only test de->en~~)(only en->de now)
 
-# In[35]:
+# In[ ]:
 
 
 import numpy as np
 from torchtext.data.metrics import bleu_score
 
-def evaluate(model, valid_loader):
+def evaluate(model, valid_loader): # 
     print('='*30)
     model.eval()  # turn on evaluation mode
     total_loss = 0.0
     cnt=0
     pred_token_list = []
-    en_token_list = []   
+    de_token_list = []   
     
     flag = 1
     with torch.no_grad():
@@ -757,33 +836,42 @@ def evaluate(model, valid_loader):
     #         output = model(target_de_ids,en_ids,mask[:en_ids.shape[0]][:en_ids.shape[0]])
 
     
-            # de -> en
-            #de_ids:$<bos>de<eos> en_ids:<bos>$en<eos>
-            output = model(de_ids,en_ids,\
-                           generate_square_subsequent_mask(en_ids.shape[0]).to(device),\
-                           de_padding_mask,en_padding_mask)
+#             # de -> en
+#             #de_ids:$<bos>de<eos> en_ids:<bos>$en<eos>
+#             output = model(de_ids,en_ids,\
+#                            generate_square_subsequent_mask(en_ids.shape[0]).to(device),\
+#                            de_padding_mask,en_padding_mask)
 
-            # output:[T,B,ntokens]
-            # target_en_ids:[T,B]
+#             # output:[T,B,ntokens]
+#             # target_en_ids:[T,B]
 
-            loss = criterion(output.view(-1,n_tokens),target_en_ids.view(-1))
-        
+#             loss = criterion(output.view(-1,n_tokens),target_en_ids.view(-1))
+    
+            # EN -> DE
+
+            output = model(en_ids,de_ids,\
+                           generate_square_subsequent_mask(de_ids.shape[0]).to(device),\
+                           en_padding_mask,de_padding_mask)
+
+
+            loss = criterion(output.view(-1,n_tokens),target_de_ids.view(-1))
+
             
-            total_loss += en_ids.shape[1]*loss.item() #B*mean_loss
-            cnt += en_ids.shape[1]
+            total_loss += loss.item()
+            cnt += 1
             
             pred = torch.argmax(output,dim=-1)
-            # pred[T,B]  target_en_ids[T,B]  tokens_id
+            # pred[T,B]  target_de_ids[T,B]  tokens_id
             
             pred = pred.t()
-            target_en_ids = target_en_ids.t()
-            # pred[B,T]  target_en_ids[B,T]  tokens_id            
+            target_de_ids = target_de_ids.t()
+            # pred[B,T]  target_de_ids[B,T]  tokens_id            
             
             
             sents = tokenizer.decode_batch(pred.tolist())
             #[B,T(id)] ->[B(str)] 
             if flag:
-                print(sents[0])
+                print("eval_pred:",sents[0])
             
     
             pred_output = tokenizer.encode_batch(sents)
@@ -798,17 +886,17 @@ def evaluate(model, valid_loader):
                 pred_token_list.append(token_list)
                 # pred_token_list [allB,T(str)]
             
-            true_sents = tokenizer.decode_batch(target_en_ids.tolist())
+            true_sents = tokenizer.decode_batch(target_de_ids.tolist())
             #[B,T(id)] -> [B(str)] 
             if flag:
-                print(true_sents[0])
+                print("eval_ans:",true_sents[0])
                 flag=0
             
             
             target_output = tokenizer.encode_batch(true_sents) 
             for o in target_output:
                 #o.tokens :[T(str)]
-                en_token_list.append([o.tokens])
+                de_token_list.append([o.tokens])
                 # en_token_list [allB,1,T(str)]
             
     
@@ -816,7 +904,7 @@ def evaluate(model, valid_loader):
     print(f"valid_loss:{avg_loss:.5f}")
     
 #     print(len(pred_token_list),len(en_token_list))
-    bleu = bleu_score(pred_token_list,en_token_list)*100
+    bleu = bleu_score(pred_token_list,de_token_list)*100
     print(f"teacher forcing bleu:{bleu}")
     
 #     # pred_token_list [allB,T(str)] # en_token_list [allB,1,T(str)]
@@ -829,7 +917,7 @@ def evaluate(model, valid_loader):
 
 # # autoregressive translate( de -> en )
 
-# In[36]:
+# In[ ]:
 
 
 def translate(model, src, references):
@@ -873,7 +961,7 @@ def translate(model, src, references):
 
 # # autoregressive evaluate
 
-# In[40]:
+# In[ ]:
 
 
 import numpy as np
@@ -889,8 +977,8 @@ def autoregressive_evaluate(model, pairs):
     for i in range(len(pairs)):
     #     print("="*40)
 #         print(i)
-        output = tokenizer.encode(pairs[i][1])
-        total_bleu += translate(model,pairs[i][0],references=[[output.tokens]])  # references [allB(1),1,T(str)]  
+        output = tokenizer.encode(pairs[i][0])
+        total_bleu += translate(model,pairs[i][1],references=[[output.tokens]])  # references [allB(1),1,T(str)]  
     
     avg_bleu = total_bleu/len(pairs)
     print("autoregressive bleu:",avg_bleu)
@@ -904,7 +992,7 @@ def autoregressive_evaluate(model, pairs):
 # In[ ]:
 
 
-for i in range(1,10):
+for i in range(1,11):
     train(transformer_model,epoch=i)
 
 
