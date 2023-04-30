@@ -1,5 +1,6 @@
 nohup: ignoring input
-2
+max total len of src and tgt of one batch 1577
+16
 Found cached dataset wmt14 (/data2/zrs/.cache/huggingface/datasets/wmt14/de-en/1.0.0/2de185b074515e97618524d69f5e27ee7545dcbed4aa9bc1a4235710ffca33f4)
 TransformerModel(
   (emb): Embedding(37000, 512, padding_idx=2)
@@ -210,449 +211,1153 @@ TransformerModel(
 |    decoder.layers.3 |    4.2M              |
 |    decoder.layers.4 |    4.2M              |
 |    decoder.layers.5 |    4.2M              |
-| steps  2000|lr 0.0003495603142950844 | s/step  0.04 | loss 22.19 | ppl 4347445167.38
+Loaded checkpoint saved at 2023-04-13 23:28:52. Resuming from epoch 40
+| steps 108558|lr 8.971240520965362e-05 | s/step  0.04 | loss  3.45 | ppl    31.54
 ==============================
-eval_pred:  Die der der der der der die die die der der der und und der der auf auf auf auf auf auf auf auf auf auf auf und der der der der auf auf auf und und und und und und und
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenpppppppppppppppppppppppppppppuuppppp
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:7.68058
-teacher forcing bleu:2.042889967560768
+valid_loss:2.50366
+teacher forcing bleu:23.096343874931335
 ==============================
-autoregressive bleu: 0.0060777939856052395
-best autoregressive bleu score: 0.0060777939856052395
+autoregressive bleu: 19.11293715222335
+save to  checkpoint.tar
+| steps 109009|lr 8.962915809563147e-05 | s/step  0.06 | loss  3.45 | ppl    31.44
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.49994
+teacher forcing bleu:25.903049111366272
+==============================
+autoregressive bleu: 19.26922056476332
+best autoregressive bleu score: 19.26922056476332
 save to best_bleu.pt
 save to  checkpoint.tar
-| steps  4000|lr 0.000698683912937353 | s/step  0.09 | loss  8.07 | ppl  3190.77
+| steps 109459|lr 8.954632611104461e-05 | s/step  0.06 | loss  3.46 | ppl    31.70
 ==============================
-eval_pred:  Ich der--,, die die europäischen- zu der zu.. zu zu zu zu zu zu zu zu zu zu zu zu zu zu zu zu zu zu zu zu zu zu zu zu zu zu zu
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.81077
-teacher forcing bleu:16.97471487142391
+valid_loss:2.50139
+teacher forcing bleu:28.862008452415466
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.183039360196688
 save to  checkpoint.tar
-| steps  6000|lr 0.0005704967913159984 | s/step  0.06 | loss  6.56 | ppl   706.60
+| steps 109909|lr 8.946372335366103e-05 | s/step  0.05 | loss  3.45 | ppl    31.44
 ==============================
-eval_pred:  Die solcheublie, ist die die EUer zu der zu..ananananandeananananananananananarararananananananan
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.17667
-teacher forcing bleu:23.705080775117544
+valid_loss:2.50188
+teacher forcing bleu:23.415620625019073
 ==============================
-autoregressive bleu: 0.0068542218280863544
-best autoregressive bleu score: 0.0068542218280863544
+autoregressive bleu: 19.06336517759043
+save to  checkpoint.tar
+| steps 110360|lr 8.93811659668374e-05 | s/step  0.06 | loss  3.45 | ppl    31.58
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.49919
+teacher forcing bleu:26.407277584075928
+==============================
+autoregressive bleu: 19.291719731366914
+best autoregressive bleu score: 19.291719731366914
 save to best_bleu.pt
 save to  checkpoint.tar
-| steps  8000|lr 0.0004940750056783844 | s/step  0.05 | loss  5.98 | ppl   397.36
+| steps 110810|lr 8.929901900825745e-05 | s/step  0.05 | loss  3.45 | ppl    31.47
 ==============================
-eval_pred:  Die solcheublikanischen und ist die die Kommissionvereinigung zu Lissabon zu zu.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.90961
-teacher forcing bleu:15.192357841219936
+valid_loss:2.50152
+teacher forcing bleu:26.185137033462524
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.20542736267933
 save to  checkpoint.tar
-| steps 10000|lr 0.00044191964281182355 | s/step  0.04 | loss  5.77 | ppl   321.18
-==============================
-eval_pred:  Die solcheublikanischen Regierung ist die die EUeing zu der zuzunehmen.
-eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.79818
-teacher forcing bleu:11.770081520080566
-==============================
-autoregressive bleu: 0.0
 save to  checkpoint.tar
-| steps 12000|lr 0.000403418956456929 | s/step  0.04 | loss  5.64 | ppl   281.06
+Loaded checkpoint saved at 2023-04-14 15:54:24. Resuming from epoch 41
+| steps 111261|lr 8.916279076117645e-05 | s/step  0.04 | loss  3.44 | ppl    31.12
 ==============================
-eval_pred:  Die solcheubliken Gesellschaft ist die die Sicherheiteing zu der zuzutreten.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenpppppp
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.68162
-teacher forcing bleu:16.42829090160068
+valid_loss:2.49639
+teacher forcing bleu:29.52968180179596
 ==============================
-autoregressive bleu: 0.0
-save to  checkpoint.tar
-| steps 14000|lr 0.0003734956015265623 | s/step  0.05 | loss  5.54 | ppl   255.53
-==============================
-eval_pred:  Das solcheublikanischen Wirtschaft ist die die Sicherheiteing zu der zuzuwirken.
-eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.63424
-teacher forcing bleu:40.79163390491958
-==============================
-autoregressive bleu: 0.0
-save to  checkpoint.tar
-| steps 16000|lr 0.00034937470369543944 | s/step  0.05 | loss  5.47 | ppl   237.78
-==============================
-eval_pred:  Das weitereublikanische Regierung ist die die Welteing zu Präsident zuzuwirken.
-eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.59691
-teacher forcing bleu:29.52448124955725
-==============================
-autoregressive bleu: 0.021386323660951282
-best autoregressive bleu score: 0.021386323660951282
+autoregressive bleu: 19.42053353943207
+best autoregressive bleu score: 19.42053353943207
 save to best_bleu.pt
 save to  checkpoint.tar
-| steps 18000|lr 0.0003293947732064727 | s/step  0.05 | loss  5.41 | ppl   224.69
+| steps 111711|lr 8.908124388623508e-05 | s/step  0.05 | loss  3.44 | ppl    31.26
 ==============================
-eval_pred:  Das Ausspracheublikanischen Aussprache die die Demokratievereinigung zu Präsident zuzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.60222
-teacher forcing bleu:40.91117807512711
+valid_loss:2.49494
+teacher forcing bleu:30.639970302581787
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.248687411174572
 save to  checkpoint.tar
-| steps 20000|lr 0.0003124921877929566 | s/step  0.05 | loss  5.38 | ppl   216.07
+| steps 112162|lr 8.899973987621241e-05 | s/step  0.05 | loss  3.45 | ppl    31.40
 ==============================
-eval_pred:  Das weitereublikanische Politik die Demokratievereinigung Lissabon zuzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.67275
-teacher forcing bleu:40.27967303952409
+valid_loss:2.49586
+teacher forcing bleu:27.0997554063797
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.160292186229096
 save to  checkpoint.tar
-save to  checkpoint.tar
-Loaded checkpoint saved at 2023-03-31 18:21:19. Resuming from epoch 1
-| steps 22000|lr 0.00028539705390370296 | s/step  0.04 | loss  5.29 | ppl   197.84
+| steps 112612|lr 8.891863914850678e-05 | s/step  0.05 | loss  3.45 | ppl    31.44
 ==============================
-eval_pred:     solcheublikanische Regierung ist die die Demokratievereinigung zu Präsident zuzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenpppppppppppppppppppppppppppppppppppp
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.52822
-teacher forcing bleu:44.18948761852335
+valid_loss:2.49377
+teacher forcing bleu:27.823731303215027
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.332755541713674
 save to  checkpoint.tar
-| steps 24000|lr 0.00027419138453771587 | s/step  0.05 | loss  5.26 | ppl   193.07
+| steps 113063|lr 8.883758023948194e-05 | s/step  0.05 | loss  3.44 | ppl    31.21
 ==============================
-eval_pred:     solcheublikanische Aussprache die die Demokratievereinigung zu Lissabon zuzuwirken
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.61283
-teacher forcing bleu:40.97266918772649
+valid_loss:2.49301
+teacher forcing bleu:29.496952891349792
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.376087528147846
 save to  checkpoint.tar
-| steps 26000|lr 0.0002642098018625814 | s/step  0.05 | loss  5.24 | ppl   188.54
+| steps 113513|lr 8.875692160563904e-05 | s/step  0.05 | loss  3.44 | ppl    31.30
 ==============================
-eval_pred:  ( solcheublikanische Regierung die die Demokratievereinigung zu Präsident zuzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenppppppppuupppupppuppppim
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.54723
-teacher forcing bleu:41.390715168428805
+valid_loss:2.48949
+teacher forcing bleu:33.51200819015503
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.37261540463057
 save to  checkpoint.tar
-| steps 28000|lr 0.00025524453276558416 | s/step  0.04 | loss  5.22 | ppl   184.57
+save to  checkpoint.tar
+Loaded checkpoint saved at 2023-04-14 20:43:09. Resuming from epoch 42
+| steps 113963|lr 8.862333377078908e-05 | s/step  0.04 | loss  3.43 | ppl    31.03
 ==============================
-eval_pred:     weitereublikanische Regierung die zu Demokratievereinigung zu Präsident zuzuwirken.
+eval_pred:  Eine republikanische Strategie gegen um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.79701
-teacher forcing bleu:39.92092650804354
+valid_loss:2.49170
+teacher forcing bleu:24.05446618795395
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.500847653355432
+best autoregressive bleu score: 19.500847653355432
+save to best_bleu.pt
 save to  checkpoint.tar
-| steps 30000|lr 0.00024713404636795536 | s/step  0.05 | loss  5.20 | ppl   180.99
+| steps 114414|lr 8.854307906301915e-05 | s/step  0.06 | loss  3.44 | ppl    31.28
 ==============================
-eval_pred:     Ausspracheublikanische Verfassung die die Demokratieeing zu Präsident zuzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.69111
-teacher forcing bleu:37.83622176381958
+valid_loss:2.49234
+teacher forcing bleu:35.5752170085907
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.44065904284444
 save to  checkpoint.tar
-| steps 32000|lr 0.0002397506110809723 | s/step  0.04 | loss  5.18 | ppl   177.66
+| steps 114864|lr 8.846321921585618e-05 | s/step  0.06 | loss  3.44 | ppl    31.20
 ==============================
-eval_pred:     solcheublikanische Politik die die Demokratievereinigung zu Präsident zuzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenppppppppppppppppppuuuupppppuuuppppp
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.49267
-teacher forcing bleu:42.50396781219706
+valid_loss:2.48950
+teacher forcing bleu:32.755208015441895
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.439300695804167
 save to  checkpoint.tar
-| steps 34000|lr 0.0002329917134857908 | s/step  0.04 | loss  5.16 | ppl   174.29
+| steps 115315|lr 8.838339831659012e-05 | s/step  0.05 | loss  3.43 | ppl    30.92
 ==============================
-eval_pred:     solcheublikanische Demokratie die zu Demokratievereinigung zu Präsident zuzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.63803
-teacher forcing bleu:40.121131407797606
+valid_loss:2.48822
+teacher forcing bleu:27.752768993377686
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.48114695381303
 save to  checkpoint.tar
-| steps 36000|lr 0.00022677399805522084 | s/step  0.04 | loss  5.15 | ppl   172.33
+| steps 115765|lr 8.830396936716115e-05 | s/step  0.05 | loss  3.44 | ppl    31.11
 ==============================
-eval_pred:  ( solcheublikanische Regierung die die Demokratievereinigung nachzukommen Präsident zuzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.62343
-teacher forcing bleu:36.297118771941584
+valid_loss:2.48960
+teacher forcing bleu:24.90827888250351
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.424949351939677
 save to  checkpoint.tar
-| steps 38000|lr 0.0002210288968233481 | s/step  0.04 | loss  5.13 | ppl   169.70
+| steps 116216|lr 8.82245783822548e-05 | s/step  0.05 | loss  3.44 | ppl    31.24
 ==============================
-eval_pred:     Ausspracheublikanische Aussprache die die Demokratievereinigung zu Präsident zuzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.49223
-teacher forcing bleu:43.25631928519809
+valid_loss:2.48688
+teacher forcing bleu:30.89064657688141
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.400330480157454
 save to  checkpoint.tar
-| steps 40000|lr 0.0002156994188915011 | s/step  0.04 | loss  5.13 | ppl   168.25
+save to  checkpoint.tar
+Loaded checkpoint saved at 2023-04-15 01:38:18. Resuming from epoch 43
+| steps 116666|lr 8.809337630435175e-05 | s/step  0.04 | loss  3.43 | ppl    30.85
 ==============================
-eval_pred:  ( Ausspracheublikanische Politik die die Demokratievereinigung zu Präsident zuzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenpppppppuupp
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.49873
-teacher forcing bleu:42.99250715582064
+valid_loss:2.48538
+teacher forcing bleu:26.011067628860474
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.393430706083848
 save to  checkpoint.tar
-save to  checkpoint.tar
-Loaded checkpoint saved at 2023-04-01 00:59:24. Resuming from epoch 2
-| steps 42000|lr 0.00020615277447838664 | s/step  0.04 | loss  5.09 | ppl   162.31
+| steps 117117|lr 8.801455147000292e-05 | s/step  0.05 | loss  3.43 | ppl    30.88
 ==============================
-eval_pred:     solcheublikanische Regierung die die Demokratievereinigung zu Präsidentzutreten.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenpppppuuuuuuuuuuu
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.59504
-teacher forcing bleu:39.35288987313672
+valid_loss:2.48840
+teacher forcing bleu:26.45144760608673
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.48410236523321
 save to  checkpoint.tar
-| steps 44000|lr 0.00020180829616770027 | s/step  0.04 | loss  5.08 | ppl   160.50
+| steps 117567|lr 8.793611192870035e-05 | s/step  0.05 | loss  3.43 | ppl    30.95
 ==============================
-eval_pred:     solcheublikanische Regierung die die Demokratievereinigung zu Herrn zuzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.59802
-teacher forcing bleu:41.54201741360884
+valid_loss:2.48728
+teacher forcing bleu:25.279727578163147
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.422086021433845
 save to  checkpoint.tar
-| steps 46000|lr 0.000197727394828062 | s/step  0.04 | loss  5.07 | ppl   159.74
+| steps 118018|lr 8.785770812039401e-05 | s/step  0.05 | loss  3.44 | ppl    31.10
 ==============================
-eval_pred:     solcheublikanische Minderheit die die Demokratievereinigung beizut Präsident entgegenzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.53302
-teacher forcing bleu:41.53722480191633
+valid_loss:2.48441
+teacher forcing bleu:25.523149967193604
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.51125459405276
+best autoregressive bleu score: 19.51125459405276
+save to best_bleu.pt
 save to  checkpoint.tar
-| steps 48000|lr 0.0001938844531390891 | s/step  0.04 | loss  5.06 | ppl   158.32
+| steps 118468|lr 8.777968680255534e-05 | s/step  0.05 | loss  3.43 | ppl    30.90
 ==============================
-eval_pred:     solcheublikanische Regierung die die Demokratie Präsidentzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.93213
-teacher forcing bleu:30.33253212397662
+valid_loss:2.48220
+teacher forcing bleu:26.84495747089386
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.40035580882227
 save to  checkpoint.tar
-| steps 50000|lr 0.0001902572092196841 | s/step  0.04 | loss  5.06 | ppl   157.24
+| steps 118918|lr 8.77018729748003e-05 | s/step  0.05 | loss  3.44 | ppl    31.16
 ==============================
-eval_pred:     solcheublikanische Regierung die die zu Präsident zuzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.94321
-teacher forcing bleu:26.81994516558021
+valid_loss:2.48260
+teacher forcing bleu:23.647187650203705
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.624768045811958
+best autoregressive bleu score: 19.624768045811958
+save to best_bleu.pt
 save to  checkpoint.tar
-| steps 52000|lr 0.00018682621190362859 | s/step  0.04 | loss  5.05 | ppl   155.52
+save to  checkpoint.tar
+Loaded checkpoint saved at 2023-04-15 06:27:43. Resuming from epoch 44
+| steps 119369|lr 8.7572813788078e-05 | s/step  0.04 | loss  3.43 | ppl    30.89
 ==============================
-eval_pred:     solcheublikanische Regierung die die es zu Präsident zuzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.95012
-teacher forcing bleu:31.27152247171156
+valid_loss:2.48470
+teacher forcing bleu:28.535202145576477
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.50291725725261
 save to  checkpoint.tar
-| steps 54000|lr 0.00018357438033932193 | s/step  0.04 | loss  5.04 | ppl   154.87
+| steps 119819|lr 8.749554833974782e-05 | s/step  0.05 | loss  3.43 | ppl    30.74
 ==============================
-eval_pred:     solcheublikanische Regierung die die Demokratie Präsidentzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.88640
-teacher forcing bleu:31.357385791151415
+valid_loss:2.48310
+teacher forcing bleu:28.958213329315186
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.634660491994403
+best autoregressive bleu score: 19.634660491994403
+save to best_bleu.pt
 save to  checkpoint.tar
-| steps 56000|lr 0.0001804866450945643 | s/step  0.04 | loss  5.03 | ppl   153.42
+| steps 120270|lr 8.741831602434194e-05 | s/step  0.05 | loss  3.43 | ppl    30.78
 ==============================
-eval_pred:  ( solcheublikanische Regierung die die Demokratievereinigung zu Präsidentzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.66785
-teacher forcing bleu:39.74124312459061
+valid_loss:2.48126
+teacher forcing bleu:27.94763743877411
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.612372238154535
 save to  checkpoint.tar
-| steps 58000|lr 0.000177549653519206 | s/step  0.04 | loss  5.03 | ppl   152.53
+| steps 120720|lr 8.734145843638606e-05 | s/step  0.05 | loss  3.43 | ppl    30.77
 ==============================
-eval_pred:     solcheublikanische Regierung die die Demokratie Präsidentzuwirken
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:5.81948
-teacher forcing bleu:26.684425544334324
+valid_loss:2.47874
+teacher forcing bleu:25.489866733551025
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.535625076260985
 save to  checkpoint.tar
-| steps 60000|lr 0.00017475152619702156 | s/step  0.04 | loss  5.02 | ppl   151.67
+| steps 121171|lr 8.726463309036919e-05 | s/step  0.05 | loss  3.44 | ppl    31.08
 ==============================
-eval_pred:  ( neueikanische Regierung Präsident zu
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.15107
-teacher forcing bleu:18.817207705125888
+valid_loss:2.47808
+teacher forcing bleu:25.616750121116638
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.599484804280152
 save to  checkpoint.tar
-save to  checkpoint.tar
-Loaded checkpoint saved at 2023-04-01 07:19:53. Resuming from epoch 3
-| steps 62000|lr 0.00016955797828558349 | s/step  0.04 | loss  5.00 | ppl   148.12
+| steps 121621|lr 8.718817978709083e-05 | s/step  0.05 | loss  3.43 | ppl    30.81
 ==============================
-eval_pred:  ( Ausspracheublikanische Regierung Demokratie zu Präsident zuzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.13789
-teacher forcing bleu:28.113031082712066
+valid_loss:2.47800
+teacher forcing bleu:28.967168927192688
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.55673655668409
 save to  checkpoint.tar
-| steps 64000|lr 0.00016711588373293247 | s/step  0.04 | loss  5.00 | ppl   147.67
+save to  checkpoint.tar
+Loaded checkpoint saved at 2023-04-15 11:17:25. Resuming from epoch 45
+| steps 122072|lr 8.706137187728313e-05 | s/step  0.04 | loss  3.43 | ppl    30.77
 ==============================
-eval_pred:     der.... die die zu zu zu zu.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenpppppppppuuppppuppppuuupppp
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.57303
-teacher forcing bleu:12.917314655741578
+valid_loss:2.48321
+teacher forcing bleu:29.368728399276733
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.477961794807833
 save to  checkpoint.tar
-| steps 66000|lr 0.0001647763564779007 | s/step  0.04 | loss  4.99 | ppl   147.34
+| steps 122522|lr 8.698545110323152e-05 | s/step  0.05 | loss  3.43 | ppl    30.97
 ==============================
-eval_pred:     ...
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenuuuuuuuuuuuuu
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.68591
-teacher forcing bleu:5.967467958952413
+valid_loss:2.47787
+teacher forcing bleu:25.474533438682556
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.627813186707552
 save to  checkpoint.tar
-| steps 68000|lr 0.00016253241219480973 | s/step  0.04 | loss  4.99 | ppl   146.44
+| steps 122972|lr 8.69097286006723e-05 | s/step  0.05 | loss  3.43 | ppl    30.75
 ==============================
-eval_pred:  Das der. zu zu.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.78713
-teacher forcing bleu:6.164924713206791
+valid_loss:2.47654
+teacher forcing bleu:26.754668354988098
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.61460192094917
 save to  checkpoint.tar
-| steps 70000|lr 0.00016037771475900736 | s/step  0.04 | loss  4.98 | ppl   145.38
+| steps 123423|lr 8.683403589376496e-05 | s/step  0.05 | loss  3.43 | ppl    30.75
 ==============================
-eval_pred:     derikanische. zu zu zu.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.53559
-teacher forcing bleu:12.416822992978911
+valid_loss:2.47590
+teacher forcing bleu:24.88996535539627
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.755805427078677
+best autoregressive bleu score: 19.755805427078677
+save to best_bleu.pt
 save to  checkpoint.tar
-| steps 72000|lr 0.00015830650089647565 | s/step  0.05 | loss  4.98 | ppl   144.84
+| steps 123873|lr 8.675870779077038e-05 | s/step  0.05 | loss  3.42 | ppl    30.59
 ==============================
-eval_pred:  ( neue.ikanische Politik die die Demokratie zu Präsident zu zu.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenuuuuuuuuuu
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.55712
-teacher forcing bleu:20.69348069774126
+valid_loss:2.47770
+teacher forcing bleu:30.36203384399414
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.592855840776597
 save to  checkpoint.tar
-| steps 74000|lr 0.0001563135152697392 | s/step  0.04 | loss  4.97 | ppl   144.43
+| steps 124324|lr 8.668340864495324e-05 | s/step  0.05 | loss  3.42 | ppl    30.50
 ==============================
-eval_pred:          .   .
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenppppppp
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.93153
-teacher forcing bleu:8.358347375986416
+valid_loss:2.47886
+teacher forcing bleu:27.544325590133667
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.678229605875377
 save to  checkpoint.tar
-| steps 76000|lr 0.0001543939543337173 | s/step  0.05 | loss  4.97 | ppl   144.00
+save to  checkpoint.tar
+Loaded checkpoint saved at 2023-04-15 16:08:54. Resuming from epoch 46
+| steps 124774|lr 8.655895333902302e-05 | s/step  0.04 | loss  3.41 | ppl    30.33
 ==============================
-eval_pred:     neue Regierung Präsident
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.75475
-teacher forcing bleu:4.835562580198154
+valid_loss:2.47542
+teacher forcing bleu:27.167406678199768
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.609810580237145
 save to  checkpoint.tar
-| steps 78000|lr 0.00015254341759480852 | s/step  0.04 | loss  4.96 | ppl   143.28
+| steps 125225|lr 8.648417265835294e-05 | s/step  0.05 | loss  3.42 | ppl    30.56
 ==============================
-eval_pred:  ( solcheublikanische Regierung die die Demokratie zu Präsident zuzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.15681
-teacher forcing bleu:30.127554198006983
+valid_loss:2.47345
+teacher forcing bleu:25.882723927497864
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.747391172344926
 save to  checkpoint.tar
-| steps 80000|lr 0.00015075786514650484 | s/step  0.04 | loss  4.96 | ppl   143.08
+| steps 125675|lr 8.640975062711749e-05 | s/step  0.05 | loss  3.42 | ppl    30.52
 ==============================
-eval_pred:     solche Regierung Demokratie Gewalt zu.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.83129
-teacher forcing bleu:7.000797959578371
+valid_loss:2.47445
+teacher forcing bleu:26.057934761047363
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.508749923268333
 save to  checkpoint.tar
-save to  checkpoint.tar
-Loaded checkpoint saved at 2023-04-01 13:55:27. Resuming from epoch 4
-| steps 82000|lr 0.00014738516613456114 | s/step  0.04 | loss  4.94 | ppl   140.07
+| steps 126126|lr 8.633535564937603e-05 | s/step  0.05 | loss  3.42 | ppl    30.47
 ==============================
-eval_pred:  ( der. Präsident.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.89218
-teacher forcing bleu:9.768751578202716
+valid_loss:2.47214
+teacher forcing bleu:23.752260208129883
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.513749266571857
 save to  checkpoint.tar
-| steps 84000|lr 0.00014577281778108844 | s/step  0.04 | loss  4.94 | ppl   139.91
+| steps 126576|lr 8.626131681241898e-05 | s/step  0.05 | loss  3.42 | ppl    30.72
 ==============================
-eval_pred:     Die... zu zu.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenppppppppppppppppppppppppppp
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.86143
-teacher forcing bleu:6.191440475909081
+valid_loss:2.47165
+teacher forcing bleu:25.40263533592224
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.810107218768138
+best autoregressive bleu score: 19.810107218768138
+save to best_bleu.pt
 save to  checkpoint.tar
-| steps 86000|lr 0.00014421225322479758 | s/step  0.04 | loss  4.94 | ppl   139.41
+| steps 127027|lr 8.618730423334526e-05 | s/step  0.05 | loss  3.43 | ppl    30.98
 ==============================
-eval_pred:  ( Frageublikanische Demokratie Demokratie zu Präsident zuzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkentetetetetetetetetetetetetetetetetetetetetetetete
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.56865
-teacher forcing bleu:12.18715490515822
+valid_loss:2.47216
+teacher forcing bleu:34.6933513879776
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.62440870146839
 save to  checkpoint.tar
-| steps 88000|lr 0.0001427007586213508 | s/step  0.04 | loss  4.93 | ppl   138.85
-==============================
-eval_pred:  ( der. Demokratie Präsident.
-eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.62826
-teacher forcing bleu:8.228041810072062
-==============================
-autoregressive bleu: 0.0
 save to  checkpoint.tar
-| steps 90000|lr 0.0001412358151565272 | s/step  0.05 | loss  4.94 | ppl   139.36
+Loaded checkpoint saved at 2023-04-15 21:01:12. Resuming from epoch 47
+| steps 127477|lr 8.606513375465759e-05 | s/step  0.04 | loss  3.41 | ppl    30.30
 ==============================
-eval_pred:     Ausspracheublikanische Regierung Demokratie Präsidentzuwirken.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenpppppppppppppppppppp
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.57675
-teacher forcing bleu:13.718071245598331
+valid_loss:2.47040
+teacher forcing bleu:26.235204935073853
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.700201169515765
 save to  checkpoint.tar
-| steps 92000|lr 0.0001398150813881525 | s/step  0.04 | loss  4.93 | ppl   138.45
+| steps 127927|lr 8.599178735921515e-05 | s/step  0.06 | loss  3.42 | ppl    30.54
 ==============================
-eval_pred:  ( ( (. Präsident.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenufufufppufufufufufufufufufufufufufufufufufufufufufuuuuufufufufuf
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.81621
-teacher forcing bleu:10.07671491751581
+valid_loss:2.47110
+teacher forcing bleu:27.32085883617401
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.66427776615516
 save to  checkpoint.tar
-| steps 94000|lr 0.00013843637750356657 | s/step  0.04 | loss  4.93 | ppl   138.32
+| steps 128378|lr 8.591846579832068e-05 | s/step  0.05 | loss  3.41 | ppl    30.25
 ==============================
-eval_pred:  ( derublikanische Regierung die Demokratie zu Präsident zu.
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenuuuuuuuteteteteteteuuuuuuuuuuuuu
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.42208
-teacher forcing bleu:20.229235587392502
+valid_loss:2.46838
+teacher forcing bleu:26.4565646648407
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.889937078554524
+best autoregressive bleu score: 19.889937078554524
+save to best_bleu.pt
 save to  checkpoint.tar
-| steps 96000|lr 0.0001370976712517973 | s/step  0.04 | loss  4.92 | ppl   137.50
+| steps 128828|lr 8.58454934265736e-05 | s/step  0.05 | loss  3.42 | ppl    30.61
 ==============================
-eval_pred:     ( (....
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenpppppppuuuuuuuppppuuuupppuuupppppf
 eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
-valid_loss:6.85231
-teacher forcing bleu:7.215897517896062
+valid_loss:2.46791
+teacher forcing bleu:24.328556656837463
 ==============================
-autoregressive bleu: 0.0
+autoregressive bleu: 19.81052322957796
+save to  checkpoint.tar
+| steps 129279|lr 8.577254512826061e-05 | s/step  0.06 | loss  3.42 | ppl    30.63
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.47064
+teacher forcing bleu:26.509985327720642
+==============================
+autoregressive bleu: 19.712676565807687
+save to  checkpoint.tar
+| steps 129729|lr 8.569994361214321e-05 | s/step  0.06 | loss  3.42 | ppl    30.47
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.46849
+teacher forcing bleu:22.491785883903503
+==============================
+autoregressive bleu: 19.88978044661779
+save to  checkpoint.tar
+save to  checkpoint.tar
+Loaded checkpoint saved at 2023-04-16 01:58:38. Resuming from epoch 48
+| steps 130180|lr 8.557951014917142e-05 | s/step  0.04 | loss  3.41 | ppl    30.31
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenuuuuuuuuuu
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.46717
+teacher forcing bleu:23.910823464393616
+==============================
+autoregressive bleu: 20.08312172496417
+best autoregressive bleu score: 20.08312172496417
+save to best_bleu.pt
+save to  checkpoint.tar
+| steps 130630|lr 8.550739729812962e-05 | s/step  0.06 | loss  3.41 | ppl    30.20
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenuuppppuuuuuuuuuuuuuuuuppppuuuuuuuuuuff
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.46620
+teacher forcing bleu:26.864799857139587
+==============================
+autoregressive bleu: 19.752797051771505
+save to  checkpoint.tar
+| steps 131081|lr 8.543530679199074e-05 | s/step  0.05 | loss  3.41 | ppl    30.22
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenppppffftetetententeteffppfffff
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.46649
+teacher forcing bleu:28.128963708877563
+==============================
+autoregressive bleu: 19.740274231496322
+save to  checkpoint.tar
+| steps 131531|lr 8.536355755698458e-05 | s/step  0.06 | loss  3.41 | ppl    30.41
+==============================
+eval_pred:  Eine republikanische Strategie gegen um der Wiederwahl Obama Obama entgegenzuwirkenpppppppppuutepppppppppppfff
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.46592
+teacher forcing bleu:30.73214292526245
+==============================
+autoregressive bleu: 19.923815575659876
+save to  checkpoint.tar
+| steps 131981|lr 8.529198878558659e-05 | s/step  0.05 | loss  3.42 | ppl    30.45
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenppppppteteteteteteteteuuupteppuuuppppf
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.46619
+teacher forcing bleu:27.10825502872467
+==============================
+autoregressive bleu: 19.730831436528387
+save to  checkpoint.tar
+| steps 132432|lr 8.52204412797585e-05 | s/step  0.05 | loss  3.42 | ppl    30.45
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenp
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.46474
+teacher forcing bleu:27.28731334209442
+==============================
+autoregressive bleu: 19.897047583119093
+save to  checkpoint.tar
+save to  checkpoint.tar
+Loaded checkpoint saved at 2023-04-16 06:59:10. Resuming from epoch 49
+| steps 132882|lr 8.510217304868907e-05 | s/step  0.04 | loss  3.40 | ppl    30.07
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenuu
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.46525
+teacher forcing bleu:30.739545822143555
+==============================
+autoregressive bleu: 19.758289108612125
+save to  checkpoint.tar
+| steps 133333|lr 8.503110176602598e-05 | s/step  0.06 | loss  3.41 | ppl    30.24
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.46845
+teacher forcing bleu:24.999281764030457
+==============================
+autoregressive bleu: 19.71254664797827
+save to  checkpoint.tar
+| steps 133783|lr 8.496036524325619e-05 | s/step  0.06 | loss  3.41 | ppl    30.24
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45977
+teacher forcing bleu:24.489565193653107
+==============================
+autoregressive bleu: 19.966474356632833
+save to  checkpoint.tar
+| steps 134234|lr 8.488964835738688e-05 | s/step  0.06 | loss  3.41 | ppl    30.28
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenuuuuuuuuuuuuuuuuuuuuuuuuuu
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.46306
+teacher forcing bleu:29.135441780090332
+==============================
+autoregressive bleu: 19.808375665377177
+save to  checkpoint.tar
+| steps 134684|lr 8.481926397681209e-05 | s/step  0.06 | loss  3.41 | ppl    30.33
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenppppppppuuppppppp
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.46153
+teacher forcing bleu:25.728458166122437
+==============================
+autoregressive bleu: 20.061160853680867
+save to  checkpoint.tar
+| steps 135135|lr 8.474889855216472e-05 | s/step  0.06 | loss  3.41 | ppl    30.19
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenpppppppppppppppppppppppppppppppp
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.46110
+teacher forcing bleu:25.598588585853577
+==============================
+autoregressive bleu: 20.012062376326572
+save to  checkpoint.tar
+save to  checkpoint.tar
+Loaded checkpoint saved at 2023-04-16 12:24:42. Resuming from epoch 50
+| steps 135585|lr 8.46327352032127e-05 | s/step  0.04 | loss  3.40 | ppl    30.05
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45865
+teacher forcing bleu:25.782686471939087
+==============================
+autoregressive bleu: 20.1321453524259
+best autoregressive bleu score: 20.1321453524259
+save to best_bleu.pt
+save to  checkpoint.tar
+| steps 136036|lr 8.456283260496313e-05 | s/step  0.06 | loss  3.40 | ppl    30.00
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.46155
+teacher forcing bleu:30.22325336933136
+==============================
+autoregressive bleu: 19.89305231448871
+save to  checkpoint.tar
+| steps 136486|lr 8.449325735019917e-05 | s/step  0.06 | loss  3.41 | ppl    30.29
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45627
+teacher forcing bleu:23.894619941711426
+==============================
+autoregressive bleu: 19.929949946025854
+save to  checkpoint.tar
+| steps 136936|lr 8.442385354537446e-05 | s/step  0.06 | loss  3.41 | ppl    30.20
+==============================
+eval_pred:  Eine republikanische Strategie gegen um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45919
+teacher forcing bleu:24.872764945030212
+==============================
+autoregressive bleu: 19.91119006935264
+save to  checkpoint.tar
+| steps 137387|lr 8.435446682586872e-05 | s/step  0.06 | loss  3.41 | ppl    30.21
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenppppppppppfffpppppuuuup
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45679
+teacher forcing bleu:25.919830799102783
+==============================
+autoregressive bleu: 20.05227868152125
+save to  checkpoint.tar
+| steps 137837|lr 8.428540419305822e-05 | s/step  0.06 | loss  3.41 | ppl    30.16
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45534
+teacher forcing bleu:29.64150309562683
+==============================
+autoregressive bleu: 20.02398978292785
+save to  checkpoint.tar
+save to  checkpoint.tar
+Loaded checkpoint saved at 2023-04-16 17:51:31. Resuming from epoch 51
+| steps 138288|lr 8.417082845962516e-05 | s/step  0.04 | loss  3.40 | ppl    29.97
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45439
+teacher forcing bleu:23.89981597661972
+==============================
+autoregressive bleu: 20.056623909542957
+save to  checkpoint.tar
+| steps 138738|lr 8.410221552407628e-05 | s/step  0.06 | loss  3.41 | ppl    30.23
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45508
+teacher forcing bleu:24.563780426979065
+==============================
+autoregressive bleu: 20.004006322591273
+save to  checkpoint.tar
+| steps 139189|lr 8.403361819270507e-05 | s/step  0.06 | loss  3.39 | ppl    29.80
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45812
+teacher forcing bleu:25.905805826187134
+==============================
+autoregressive bleu: 19.909535453775746
+save to  checkpoint.tar
+| steps 139639|lr 8.396533998472334e-05 | s/step  0.06 | loss  3.40 | ppl    30.09
+==============================
+eval_pred:  Eine republikanische Strategie gegen um der Wiederwahl Obama Obama entgegenzuwirken ich ich ich
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45471
+teacher forcing bleu:23.95889014005661
+==============================
+autoregressive bleu: 19.945456322294
+save to  checkpoint.tar
+| steps 140090|lr 8.389707676148114e-05 | s/step  0.06 | loss  3.40 | ppl    29.98
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken ich ich ich ich ich ich ich ich ich ich ich ich ich ich ich ich
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45309
+teacher forcing bleu:22.24176377058029
+==============================
+autoregressive bleu: 20.198030324365888
+best autoregressive bleu score: 20.198030324365888
+save to best_bleu.pt
+save to  checkpoint.tar
+| steps 140540|lr 8.382913056828116e-05 | s/step  0.06 | loss  3.40 | ppl    30.11
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45547
+teacher forcing bleu:24.74590539932251
+==============================
+autoregressive bleu: 19.934979114657807
+save to  checkpoint.tar
+save to  checkpoint.tar
+Loaded checkpoint saved at 2023-04-16 23:17:30. Resuming from epoch 52
+| steps 140990|lr 8.371655324533069e-05 | s/step  0.04 | loss  3.40 | ppl    29.83
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45452
+teacher forcing bleu:26.168429851531982
+==============================
+autoregressive bleu: 20.04105922468785
+save to  checkpoint.tar
+| steps 141441|lr 8.364889452342992e-05 | s/step  0.06 | loss  3.40 | ppl    29.82
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45434
+teacher forcing bleu:21.989014744758606
+==============================
+autoregressive bleu: 20.131144686417247
+save to  checkpoint.tar
+| steps 141891|lr 8.358154905525234e-05 | s/step  0.06 | loss  3.40 | ppl    29.96
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45611
+teacher forcing bleu:24.939624965190887
+==============================
+autoregressive bleu: 19.779480178038895
+save to  checkpoint.tar
+| steps 142342|lr 8.351421686913475e-05 | s/step  0.06 | loss  3.40 | ppl    29.98
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45257
+teacher forcing bleu:22.001028060913086
+==============================
+autoregressive bleu: 20.06337820188587
+save to  checkpoint.tar
+| steps 142792|lr 8.344719590286986e-05 | s/step  0.06 | loss  3.40 | ppl    29.85
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45576
+teacher forcing bleu:23.08407872915268
+==============================
+autoregressive bleu: 20.117829388347516
+save to  checkpoint.tar
+| steps 143243|lr 8.338018763440467e-05 | s/step  0.06 | loss  3.40 | ppl    30.00
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45448
+teacher forcing bleu:24.420224130153656
+==============================
+autoregressive bleu: 20.15931478275106
+save to  checkpoint.tar
+save to  checkpoint.tar
+Loaded checkpoint saved at 2023-04-17 04:42:50. Resuming from epoch 53
+| steps 143693|lr 8.326940696708817e-05 | s/step  0.04 | loss  3.39 | ppl    29.65
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenppppppppppppppppppppppppppppppppppp
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45292
+teacher forcing bleu:26.738178730010986
+==============================
+autoregressive bleu: 19.930256536133488
+save to  checkpoint.tar
+| steps 144144|lr 8.320282574012468e-05 | s/step  0.06 | loss  3.39 | ppl    29.78
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenpppppppppp
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45278
+teacher forcing bleu:26.530548930168152
+==============================
+autoregressive bleu: 20.07816494633665
+save to  checkpoint.tar
+| steps 144594|lr 8.313655107157634e-05 | s/step  0.06 | loss  3.39 | ppl    29.69
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45196
+teacher forcing bleu:24.724607169628143
+==============================
+autoregressive bleu: 20.09231796487567
+save to  checkpoint.tar
+| steps 145045|lr 8.30702877730604e-05 | s/step  0.06 | loss  3.40 | ppl    30.07
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.45045
+teacher forcing bleu:26.151004433631897
+==============================
+autoregressive bleu: 20.13601525582086
+save to  checkpoint.tar
+| steps 145495|lr 8.300432906621787e-05 | s/step  0.06 | loss  3.40 | ppl    29.92
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenppppp
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44772
+teacher forcing bleu:25.966429710388184
+==============================
+autoregressive bleu: 20.34107199100761
+best autoregressive bleu score: 20.34107199100761
+save to best_bleu.pt
+save to  checkpoint.tar
+| steps 145945|lr 8.29385272260637e-05 | s/step  0.06 | loss  3.40 | ppl    29.99
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44789
+teacher forcing bleu:22.79081791639328
+==============================
+autoregressive bleu: 20.030163771973058
+save to  checkpoint.tar
+save to  checkpoint.tar
+Loaded checkpoint saved at 2023-04-17 10:09:46. Resuming from epoch 54
+| steps 146396|lr 8.282934987662861e-05 | s/step  0.04 | loss  3.39 | ppl    29.74
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44675
+teacher forcing bleu:26.924705505371094
+==============================
+autoregressive bleu: 19.97115644631867
+save to  checkpoint.tar
+| steps 146846|lr 8.276396297769722e-05 | s/step  0.06 | loss  3.39 | ppl    29.78
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44998
+teacher forcing bleu:30.117905139923096
+==============================
+autoregressive bleu: 19.899343082111116
+save to  checkpoint.tar
+| steps 147297|lr 8.269858589834515e-05 | s/step  0.06 | loss  3.40 | ppl    29.87
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44841
+teacher forcing bleu:27.527812123298645
+==============================
+autoregressive bleu: 19.957865545588543
+save to  checkpoint.tar
+| steps 147747|lr 8.263350794964622e-05 | s/step  0.06 | loss  3.39 | ppl    29.81
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenppppppppppppppppp
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44990
+teacher forcing bleu:33.6718887090683
+==============================
+autoregressive bleu: 19.995551074070356
+save to  checkpoint.tar
+| steps 148198|lr 8.256843928837651e-05 | s/step  0.06 | loss  3.39 | ppl    29.74
+==============================
+eval_pred:  Eine republikanische Strategie zur um Obama Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44597
+teacher forcing bleu:28.844812512397766
+==============================
+autoregressive bleu: 20.000705866474554
+save to  checkpoint.tar
+| steps 148648|lr 8.25036678645897e-05 | s/step  0.06 | loss  3.40 | ppl    29.84
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenuuuuuuuuuuuuuuuuuuuuuuu
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44851
+teacher forcing bleu:29.0641188621521
+==============================
+autoregressive bleu: 19.915349978640464
+save to  checkpoint.tar
+save to  checkpoint.tar
+Loaded checkpoint saved at 2023-04-17 15:36:10. Resuming from epoch 55
+| steps 149099|lr 8.239619660889437e-05 | s/step  0.04 | loss  3.39 | ppl    29.77
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44541
+teacher forcing bleu:30.364394187927246
+==============================
+autoregressive bleu: 20.205004948297706
+save to  checkpoint.tar
+| steps 149549|lr 8.233182937566166e-05 | s/step  0.06 | loss  3.39 | ppl    29.58
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenpppppppuuuuuuuuuupuuuu
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44806
+teacher forcing bleu:28.655189275741577
+==============================
+autoregressive bleu: 20.138920516546822
+save to  checkpoint.tar
+| steps 150000|lr 8.226747022027829e-05 | s/step  0.06 | loss  3.39 | ppl    29.67
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44468
+teacher forcing bleu:23.9447683095932
+==============================
+autoregressive bleu: 20.222867460916667
+save to  checkpoint.tar
+| steps 150450|lr 8.220340396165503e-05 | s/step  0.06 | loss  3.40 | ppl    29.83
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44472
+teacher forcing bleu:27.27610170841217
+==============================
+autoregressive bleu: 20.15893754868586
+save to  checkpoint.tar
+| steps 150900|lr 8.213948714617333e-05 | s/step  0.06 | loss  3.39 | ppl    29.62
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44243
+teacher forcing bleu:25.947073101997375
+==============================
+autoregressive bleu: 20.0492063099007
+save to  checkpoint.tar
+| steps 151351|lr 8.207557765252219e-05 | s/step  0.06 | loss  3.39 | ppl    29.69
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44295
+teacher forcing bleu:27.385106682777405
+==============================
+autoregressive bleu: 20.246837845551415
+save to  checkpoint.tar
+save to  checkpoint.tar
+Loaded checkpoint saved at 2023-04-17 21:04:22. Resuming from epoch 56
+| steps 151801|lr 8.196990950871968e-05 | s/step  0.04 | loss  3.39 | ppl    29.75
+==============================
+eval_pred:  Eine republikanische Strategie gegen um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44554
+teacher forcing bleu:26.578500866889954
+==============================
+autoregressive bleu: 20.127700183887622
+save to  checkpoint.tar
+| steps 152252|lr 8.190639471777234e-05 | s/step  0.06 | loss  3.40 | ppl    29.91
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44530
+teacher forcing bleu:23.29646497964859
+==============================
+autoregressive bleu: 20.07471115225943
+save to  checkpoint.tar
+| steps 152702|lr 8.184316768414829e-05 | s/step  0.06 | loss  3.39 | ppl    29.80
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.43798
+teacher forcing bleu:24.6986523270607
+==============================
+autoregressive bleu: 20.24537848224382
+save to  checkpoint.tar
+| steps 153153|lr 8.177994683049254e-05 | s/step  0.06 | loss  3.40 | ppl    29.83
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.43833
+teacher forcing bleu:26.758450269699097
+==============================
+autoregressive bleu: 20.4386249899491
+best autoregressive bleu score: 20.4386249899491
+save to best_bleu.pt
+save to  checkpoint.tar
+| steps 153603|lr 8.171701195177668e-05 | s/step  0.06 | loss  3.40 | ppl    29.99
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.43745
+teacher forcing bleu:23.55155348777771
+==============================
+autoregressive bleu: 20.186311496462704
+save to  checkpoint.tar
+| steps 154054|lr 8.165408277522057e-05 | s/step  0.06 | loss  3.40 | ppl    29.97
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenpppp
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44007
+teacher forcing bleu:29.19307053089142
+==============================
+autoregressive bleu: 20.29897760408185
+save to  checkpoint.tar
+save to  checkpoint.tar
+Loaded checkpoint saved at 2023-04-18 02:31:11. Resuming from epoch 57
+| steps 154504|lr 8.155017102725021e-05 | s/step  0.04 | loss  3.40 | ppl    29.82
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44306
+teacher forcing bleu:31.771281361579895
+==============================
+autoregressive bleu: 20.26437087772199
+save to  checkpoint.tar
+| steps 154954|lr 8.148776473666107e-05 | s/step  0.06 | loss  3.39 | ppl    29.61
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.44004
+teacher forcing bleu:30.65720498561859
+==============================
+autoregressive bleu: 20.161543231731432
+save to  checkpoint.tar
+| steps 155405|lr 8.142536329257571e-05 | s/step  0.06 | loss  3.39 | ppl    29.64
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.43998
+teacher forcing bleu:26.72492265701294
+==============================
+autoregressive bleu: 20.186599403518887
+save to  checkpoint.tar
+| steps 155855|lr 8.136324287311748e-05 | s/step  0.06 | loss  3.40 | ppl    29.98
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenpp
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.43796
+teacher forcing bleu:33.854180574417114
+==============================
+autoregressive bleu: 20.322690413348276
+save to  checkpoint.tar
+| steps 156306|lr 8.130112684215557e-05 | s/step  0.06 | loss  3.39 | ppl    29.69
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.43850
+teacher forcing bleu:31.91543221473694
+==============================
+autoregressive bleu: 20.22433877663487
+save to  checkpoint.tar
+| steps 156756|lr 8.123929011793975e-05 | s/step  0.06 | loss  3.40 | ppl    30.03
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.43367
+teacher forcing bleu:28.19128930568695
+==============================
+autoregressive bleu: 20.404365230863682
+save to  checkpoint.tar
+save to  checkpoint.tar
+Loaded checkpoint saved at 2023-04-18 07:57:33. Resuming from epoch 58
+| steps 157207|lr 8.113667845801566e-05 | s/step  0.04 | loss  3.39 | ppl    29.54
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.43519
+teacher forcing bleu:31.609833240509033
+==============================
+autoregressive bleu: 20.266975803644247
+save to  checkpoint.tar
+| steps 157657|lr 8.107521592479682e-05 | s/step  0.06 | loss  3.38 | ppl    29.46
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenpppppppppppppppp
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.43415
+teacher forcing bleu:29.772815108299255
+==============================
+autoregressive bleu: 20.244209423720253
+save to  checkpoint.tar
+| steps 158108|lr 8.101375673874058e-05 | s/step  0.06 | loss  3.39 | ppl    29.75
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.43624
+teacher forcing bleu:32.23796188831329
+==============================
+autoregressive bleu: 20.380130407871903
+save to  checkpoint.tar
+| steps 158558|lr 8.095257291851027e-05 | s/step  0.06 | loss  3.40 | ppl    29.82
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.43302
+teacher forcing bleu:27.96194553375244
+==============================
+autoregressive bleu: 20.360992032812874
+save to  checkpoint.tar
+| steps 159009|lr 8.089139200963228e-05 | s/step  0.06 | loss  3.39 | ppl    29.81
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.43293
+teacher forcing bleu:28.278541564941406
+==============================
+autoregressive bleu: 20.108095010548862
+save to  checkpoint.tar
+| steps 159459|lr 8.083048480228226e-05 | s/step  0.06 | loss  3.39 | ppl    29.66
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.43185
+teacher forcing bleu:22.06045538187027
+==============================
+autoregressive bleu: 20.406068146911334
+save to  checkpoint.tar
+save to  checkpoint.tar
+Loaded checkpoint saved at 2023-04-18 13:24:07. Resuming from epoch 59
+| steps 159909|lr 8.072954718964789e-05 | s/step  0.04 | loss  3.38 | ppl    29.43
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirkenppppppppppp
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.43222
+teacher forcing bleu:27.105635404586792
+==============================
+autoregressive bleu: 20.236249668034176
+save to  checkpoint.tar
+| steps 160360|lr 8.066887017390583e-05 | s/step  0.06 | loss  3.39 | ppl    29.62
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.43517
+teacher forcing bleu:24.98611956834793
+==============================
+autoregressive bleu: 20.307185799746115
+save to  checkpoint.tar
+| steps 160810|lr 8.060846385409906e-05 | s/step  0.06 | loss  3.39 | ppl    29.67
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.42990
+teacher forcing bleu:32.965171337127686
+==============================
+autoregressive bleu: 20.398813015969413
+save to  checkpoint.tar
+| steps 161261|lr 8.054805924678725e-05 | s/step  0.06 | loss  3.39 | ppl    29.66
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.43214
+teacher forcing bleu:25.45265555381775
+==============================
+autoregressive bleu: 20.255403889888388
+save to  checkpoint.tar
+| steps 161711|lr 8.048792371489299e-05 | s/step  0.06 | loss  3.38 | ppl    29.50
+==============================
+eval_pred:  Eine republikanische Strategie zur um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.43148
+teacher forcing bleu:25.910422205924988
+==============================
+autoregressive bleu: 20.26744899134471
+save to  checkpoint.tar
+| steps 162162|lr 8.042778948380581e-05 | s/step  0.06 | loss  3.39 | ppl    29.57
+==============================
+eval_pred:  Eine republikanische Strategie gegen um der Wiederwahl Obama Obama entgegenzuwirken
+eval_ans:  Eine republikanische Strategie, um der Wiederwahl von Obama entgegenzutreten
+valid_loss:2.42966
+teacher forcing bleu:28.338924050331116
+==============================
+autoregressive bleu: 20.438111947541323
+save to  checkpoint.tar
 save to  checkpoint.tar

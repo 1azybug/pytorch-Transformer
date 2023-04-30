@@ -73,6 +73,23 @@
 # # 2023/4/1
 # * overfitting
 # * make truncate_len = 768 batch_tokens = 1536 accumulation_steps = 50000//batch_tokens
+# 
+# * update after training:
+# * fix bug in batch_generator(): reset batch_size = gpu_num when yield a batch,and calculate the correct de_cnt and en_cnt
+
+# # 2023/4/2
+# * truncate_len = 960 batch_tokens = 1984
+# * fix bug:train() and evaluate() .squeeze() -> .squeeze(0)
+
+# # 2023/4/4
+# * find bug: real totol tokens of one batch != batch_tokens;batch_tokens == the totol len of string of one batch
+# * add function:  num_tokens(str) -> int ;   return the num of tokens of the string
+# * fix bug:sort pairs by tokens of en-de pairs (key = (num_tokens(en)//10)\*10\*5000+num_tokens(de))
+# * meaning:every 10 is an interval,fisrt sorted by the interval of num_tokens(en); 
+# * if num_tokens(en) in the same interval ,second sorted by num_tokens(de)
+# * fix bug:calculate de_cnt and en_cnt by num_tokens
+# * change batch_tokens to 896 (now it's real totol tokens of one batch)
+# * only 0.0001~0.0002 of dataset exceed 960 length 
 
 # # Future
 # ### Test module
@@ -135,10 +152,10 @@ gpu_num = 1
 # end_factor = 1.0
 warmup_steps = 4000
 
-truncate_len = 768
-batch_tokens = 1536 #  the maximum of the total num of src tokens + tgt tokens
+truncate_len = 960
+batch_tokens = 896 #  the maximum of the total num of src tokens + tgt tokens
 
-accumulation_steps = (25000*2)//batch_tokens
+accumulation_steps = (50000*2)//batch_tokens
 # learning_rate = 3e-4
 # T0 = 256
 # Tmul = 2
@@ -178,6 +195,22 @@ save_path = "checkpoint.tar"
 # dataset.save_to_disk('dataset')
 
 
+# # load tokenizer
+
+# In[ ]:
+
+
+from tokenizers import Tokenizer
+tokenizer = Tokenizer.from_file("tokenizer.json")
+
+
+# In[ ]:
+
+
+def num_tokens(origin_string):
+    return len(tokenizer.encode(origin_string).ids)
+
+
 # # load dataset to memory
 
 # ### truncate the long sentence (though we can train transformer by any length ,the gpu memory cannot allow)
@@ -196,7 +229,8 @@ for i in range(len(dataset)):
 # In[ ]:
 
 
-de_en_pairs = sorted(de_en_pairs,key=lambda x:+len(x[0])+len(x[1]))
+# de_en_pairs = sorted(de_en_pairs,key=lambda x:+len(x[0])+len(x[1]))
+de_en_pairs = sorted(de_en_pairs,key=lambda x:(num_tokens(x[1])//10)*10*5000+num_tokens(x[0]))
 
 
 # In[ ]:
@@ -220,7 +254,7 @@ de_en_pairs = sorted(de_en_pairs,key=lambda x:+len(x[0])+len(x[1]))
 # In[ ]:
 
 
-len(de_en_pairs[-1][0])+len(de_en_pairs[-1][1])
+print("max total len of src and tgt of one batch",len(de_en_pairs[-1][0])+len(de_en_pairs[-1][1]))
 
 
 # In[ ]:
@@ -252,8 +286,7 @@ for i in range(len(valid_dataset)):
 
 import torch
 import numpy as np
-from tokenizers import Tokenizer
-tokenizer = Tokenizer.from_file("tokenizer.json")
+
 def batch_generator(dataset,gpu_num=1,max_len=batch_tokens):
     en_cnt = 0
     de_cnt = 0
@@ -264,8 +297,10 @@ def batch_generator(dataset,gpu_num=1,max_len=batch_tokens):
         
         en_batch.append(pairs[1])
         de_batch.append(pairs[0])
-        en_cnt += len(pairs[1])
-        de_cnt += len(pairs[0])
+#         en_cnt += len(pairs[1])
+#         de_cnt += len(pairs[0])
+        en_cnt += num_tokens(pairs[1])
+        de_cnt += num_tokens(pairs[0])
         batch_size += 1
         
         if batch_size%gpu_num == 0:          
@@ -290,8 +325,9 @@ def batch_generator(dataset,gpu_num=1,max_len=batch_tokens):
                 for de in de_output:
                     de_ids.append(de.ids)
                     target_de_ids.append(de.ids[1:]+[pad_id])
-                    de_padding_mask.append(de.attention_mask)              
-
+                    de_padding_mask.append(de.attention_mask) 
+                    
+#                 print("shape of en_ids:",len(en_ids))
                 yield torch.LongTensor(en_ids).t().contiguous(),\
                         torch.LongTensor(de_ids).t().contiguous(),\
                         torch.LongTensor(target_en_ids).t().contiguous(),\
@@ -303,7 +339,14 @@ def batch_generator(dataset,gpu_num=1,max_len=batch_tokens):
                 en_cnt = 0
                 de_cnt = 0            
                 en_batch = en_batch[-gpu_num:]
-                de_batch = de_batch[-gpu_num:]            
+                de_batch = de_batch[-gpu_num:]
+                for elem in en_batch:
+#                     en_cnt+=len(elem)
+                    en_cnt+=num_tokens(elem)
+                for elem in de_batch:
+#                     de_cnt+=len(elem)
+                    en_cnt+=num_tokens(elem)
+                batch_size = gpu_num
 
     if en_ids:
         yield torch.LongTensor(en_ids).t().contiguous(),\
@@ -689,14 +732,25 @@ def train(model,epoch):
     for en_ids,de_ids,target_en_ids,target_de_ids,\
         en_padding_mask,de_padding_mask in train_loader:
 
-        en_ids = en_ids.squeeze().to(device)
-        de_ids = de_ids.squeeze().to(device)
-        target_en_ids = target_en_ids.squeeze().to(device)
-        target_de_ids = target_de_ids.squeeze().to(device)
-        en_padding_mask = en_padding_mask.squeeze().to(device)
-        de_padding_mask = de_padding_mask.squeeze().to(device)
+        en_ids = en_ids.squeeze(0).to(device)
+        de_ids = de_ids.squeeze(0).to(device)
+        target_en_ids = target_en_ids.squeeze(0).to(device)
+        target_de_ids = target_de_ids.squeeze(0).to(device)
+        en_padding_mask = en_padding_mask.squeeze(0).to(device)
+        de_padding_mask = de_padding_mask.squeeze(0).to(device)
         
-#         print(en_ids.shape,de_ids.shape,en_padding_mask.shape)
+#         en_ids = en_ids.to(device)
+#         de_ids = de_ids.to(device)
+#         target_en_ids = target_en_ids.to(device)
+#         target_de_ids = target_de_ids.to(device)
+#         en_padding_mask = en_padding_mask.to(device)
+#         de_padding_mask = de_padding_mask.to(device)
+        
+#         print("shape of data:")
+#         print("en_ids:",en_ids.shape,"de_ids:",de_ids.shape)
+#         print("target_en_ids:",target_en_ids.shape,"target_de_ids:",target_de_ids.shape)
+#         print("en_padding_mask:",en_padding_mask.shape,"de_padding_mask:",de_padding_mask.shape)
+
         # en_ids:[T,B],de_ids:[S,B],target_en_ids:[T,B],target_de_ids:[S,B]
         # en_padding_mask:[B,T] de_padding_mask:[B,S]
         
@@ -820,13 +874,19 @@ def evaluate(model, valid_loader): #
         for en_ids,de_ids,target_en_ids,target_de_ids,\
             en_padding_mask,de_padding_mask in valid_loader:
             
-            en_ids = en_ids.squeeze().to(device)
-            de_ids = de_ids.squeeze().to(device)
-            target_en_ids = target_en_ids.squeeze().to(device)
-            target_de_ids = target_de_ids.squeeze().to(device)
-            en_padding_mask = en_padding_mask.squeeze().to(device)
-            de_padding_mask = de_padding_mask.squeeze().to(device)
+            en_ids = en_ids.squeeze(0).to(device)
+            de_ids = de_ids.squeeze(0).to(device)
+            target_en_ids = target_en_ids.squeeze(0).to(device)
+            target_de_ids = target_de_ids.squeeze(0).to(device)
+            en_padding_mask = en_padding_mask.squeeze(0).to(device)
+            de_padding_mask = de_padding_mask.squeeze(0).to(device)
 
+#             en_ids = en_ids.to(device)
+#             de_ids = de_ids.to(device)
+#             target_en_ids = target_en_ids.to(device)
+#             target_de_ids = target_de_ids.to(device)
+#             en_padding_mask = en_padding_mask.to(device)
+#             de_padding_mask = de_padding_mask.to(device)
             
             # en_ids:[T,B],de_ids:[S,B],target_en_ids:[T,B],target_de_ids:[S,B]
             # en_padding_mask:[B,T] de_padding_mask:[B,S]
@@ -992,7 +1052,7 @@ def autoregressive_evaluate(model, pairs):
 # In[ ]:
 
 
-for i in range(1,11):
+for i in range(41,61):
     train(transformer_model,epoch=i)
 
 
