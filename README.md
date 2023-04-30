@@ -15,12 +15,62 @@ WMT 2014 English-German dataset
 
 《transformer(draft).ipynb》实现训练程序，同时在文件开头记录了每次对程序的更新
 
+# 2023年4月30日更新
+
+|                 | Transformer(base) in Attention is all you need | My transformer  |
+|:----------------|:-----------------------------------------------|:----------------|
+|设备|八个P100|一个RTX2080|
+|shifted right    |完成|完成|
+|层数              |6|6|
+|$d_{model}$|512|512|
+|decoder mask|有|有|
+|key padding mask|未提及|有|
+|头数|8|8|
+|$d_{ff}$|2048|2048|
+|激活函数|ReLU|gelu|
+|weight tying|有|有|
+|embedding层乘上 $\sqrt{d_{model}}$|有|有|
+|位置编码|sinusoids|sinusoids|
+|训练数据|WMT 2014 English-German dataset|WMT 2014 English-German dataset|
+|分词方式|BPE|BPE|
+|词表|37000tokens,共享词表|37000tokens,共享词表|
+|组batch方式|将相近序列长度的句子对组到一起|将相近序列长度的句子对组到一起|
+|batch size|约25000个源tokens和25000个目标tokens|源tokens和目标token加起来接近50000(用梯度累积实现)|
+|截断长度|未提及|960|
+|训练时间|12个小时共100k steps|约122个小时117k steps(20个epoch) => 约366个小时约324k steps(60个epoch)|
+|优化器|Adam(lr=d_model\*\*(-0.5),betas=(0.9,0.98),eps=1e-9)|Adam(lr=d_model\*\*(-0.5),betas=(0.9,0.98),eps=1e-9)|
+|调度器|lambda step_num: min((step_num+1)\*\*(-0.5),(step_num+1)*(warmup_steps\*\*(-1.5)))|lambda step_num: min((step_num+1)\*\*(-0.5),(step_num+1)*(warmup_steps\*\*(-1.5)))|
+|预热步数|4000|4000|
+|dropout|0.1|0.1|
+|embedding+PE后的dropout|有|有|
+|Label Smoothing|0.1|0.1|
+|测试模型|最后5个checkpoint|最后一个checkpoint|
+|beam search| max_len = input_len + 50; beam size = 4; length penalty = 0.6[38] | max_len = input_len + 50; beam size = 4; length penalty = 0.6[38] |
+|参数量|65M|63.1M(用fvcore测量)|
+|实验结果|development set,newstest2013:PPL=4.92 BLEU=25.8|WMT 2014 English-German validation dataset BLEU=21.52|
+
+注:transformer模型是调用pytorch里的TransformerEncoderLayer和TransformerDecoderLayer写的。
+* 等期中忙完了，自己写一个encoder和decoder层，看看BLEU还升不升。
+
 # 2023年4月29日更新
 这个月太忙了，主要工作是在4月2日到4月18日完成的
 * 修改了一些bug，换了句子对排序组batch的算法，较大地提升了GPU利用率
-* 
+* 增加了beam search用于测试
+* 重新训练了60个epoch
 
+注:下面的BLEU分数用的是greedy search
 
+![四月份训练的模型](四月.png)
+
+实验结果:
+```
+测试集Greedy search BLEU:19.39
+测试集Beam search BLEU:20.71
+验证集Greedy search BLEU:20.36
+验证集Beam search BLEU:21.52
+```
+
+beam search有1个BLEU的提升。
 
 # 2023年4月1日更新
 这两周主要训练完3月6日的模型和探索超参数。
